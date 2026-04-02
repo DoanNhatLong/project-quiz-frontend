@@ -1,0 +1,32 @@
+/* LeftSide.css */
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.leaderboard-item {
+    margin-bottom: 15px; /* Tăng khoảng cách để lộ thanh progress */
+}
+
+.user-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.rank-username {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.xp-display {
+    font-size: 0.7rem;
+    color: #2ecc71;
+}
+
+/* Tùy chỉnh độ cao thanh progress của NES */
+.nes-progress {
+    height: 15px
+}

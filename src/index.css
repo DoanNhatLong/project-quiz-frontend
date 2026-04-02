@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import "rpg-awesome/css/rpg-awesome.min.css";
+
+@theme {
+    --prefix: "tw-";
+}
+#root {
+    width: 100%;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #f1f5f9;
+}

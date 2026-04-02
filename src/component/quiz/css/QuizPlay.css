@@ -1,0 +1,205 @@
+/* Tổng thể trang */
+.quiz-play-page {
+    min-height: 100vh;
+    background-color: #0f172a; /* Màu nền tối sâu */
+    color: #f8fafc;
+    font-family: 'Inter', sans-serif;
+    padding-bottom: 50px;
+}
+
+.quiz-main-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Header & Progress Bar */
+.quiz-header {
+    margin-bottom: 30px;
+}
+
+.progress-container {
+    height: 8px;
+    background: #334155;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6); /* Màu gradient xanh tím */
+    transition: width 0.4s ease;
+}
+
+.quiz-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    color: #94a3b8;
+}
+
+/* Box câu hỏi */
+.question-box {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    min-height: 400px;
+}
+
+.type-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.type-tag.single { background: #1e3a8a; color: #60a5fa; }
+.type-tag.multiple { background: #3b0764; color: #d8b4fe; }
+
+.question-text {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    margin-bottom: 30px;
+}
+
+/* Danh sách đáp án */
+.options-grid {
+    display: grid;
+    gap: 15px;
+}
+
+.option-card {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    background: #334155;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option-card:hover {
+    background: #475569;
+    transform: translateY(-2px);
+}
+
+.option-card.active {
+    background: #1e3a8a;
+    border-color: #3b82f6;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+.indicator {
+    margin-right: 15px;
+    font-size: 1.2rem;
+    color: #64748b;
+}
+
+.option-card.active .indicator {
+    color: #3b82f6;
+}
+
+.option-content {
+    font-size: 1.1rem;
+}
+
+/* Footer & Buttons */
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+button {
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-back {
+    background: #334155;
+    color: #f8fafc;
+}
+
+.btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.btn-next, .btn-submit {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-submit {
+    background: #10b981; /* Màu xanh lá cho nút nộp bài */
+}
+
+button:hover:not(:disabled) {
+    filter: brightness(1.2);
+    transform: scale(1.02);
+}
+
+button:disabled {
+    background: #1e293b;
+    color: #475569;
+}
+
+/* Loading Spinner */
+.loading-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0f172a;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #1e293b;
+    border-top: 5px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.timer-display {
+    font-family: 'Courier New', Courier, monospace; /* Font kiểu digital */
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #10b981; /* Màu xanh khi còn nhiều thời gian */
+    background: #1e293b;
+    padding: 5px 15px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng nhấp nháy đỏ khi dưới 60 giây */
+.timer-display.urgent {
+    color: #ef4444;
+    border-color: #ef4444;
+    animation: pulse-red 1s infinite;
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(1); box-shadow: 0 0 0px rgba(239, 68, 68, 0); }
+    50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+    100% { transform: scale(1); box-shadow: 0 0 0px rgba(239, 68, 68, 0); }
+}

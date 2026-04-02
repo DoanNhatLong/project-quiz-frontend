@@ -1,0 +1,98 @@
+/* Container chính */
+.profile-review-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.page-title {
+    color: #2d3436;
+    margin-bottom: 30px;
+    font-size: 24px;
+    border-bottom: 2px solid #0984e3;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Grid layout cho danh sách card */
+.challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* Style cho từng Card */
+.challenge-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border: 1px solid #e1e4e8;
+}
+
+.challenge-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.challenge-title {
+    margin: 0 0 12px 0;
+    color: #0984e3;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.challenge-desc {
+    color: #636e72;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Đẩy phần footer xuống dưới */
+}
+
+/* Phần thông tin phụ (Thời gian) */
+.challenge-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #f1f2f6;
+}
+
+.duration-tag {
+    background-color: #dfe6e9;
+    color: #2d3436;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.btn-start {
+    background-color: #0984e3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-start:hover {
+    background-color: #074b83;
+}
+
+/* Trạng thái trống */
+.empty-state {
+    text-align: center;
+    padding: 50px;
+    color: #b2bec3;
+}

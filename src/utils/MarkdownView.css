@@ -1,0 +1,20 @@
+.markdown-container img {
+    max-width: 100%; /* Không bao giờ tràn khung */
+    height: auto;
+    border-radius: 8px;
+    margin: 10px 0;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Nếu nằm trong bảng Admin thì cho nhỏ lại */
+.admin-table .markdown-container img {
+    max-width: 150px;
+}
+
+.admin-table img {
+    max-width: 150px; /* Hoặc kích thước bạn muốn */
+    height: auto;
+    border-radius: 4px;
+    margin-top: 8px;
+}

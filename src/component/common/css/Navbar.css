@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+.navbar-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: #212529;
+    border-bottom: 4px solid #fff;
+    margin-bottom: 20px;
+}
+.navbar-container {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+.navbar-container {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 40px; /* Thu nhỏ padding 2 bên một chút để hài hòa hơn trên màn hình nhỏ */
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* Thay đổi phần này */
+    justify-content: center; /* Đưa các item vào giữa thay vì ép ra 2 bên */
+    align-items: center;
+    gap: 48px; /* Tự do điều chỉnh khoảng cách này (ví dụ: 32px, 40px, 48px) cho vừa mắt */
+    flex-wrap: wrap; /* Giúp menu không bị vỡ khi thu nhỏ màn hình */
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: #6b7280;
+    font-size: 15px; /* Tăng lên 1px cho dễ đọc hơn */
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-transform: capitalize; /* Thường thì menu nên viết hoa chữ cái đầu (hoặc bạn giữ lowercase tùy ý) */
+    transition: color 0.2s ease;
+    position: relative;
+    padding: 8px 4px; /* Tăng vùng đệm (click area) để dễ bấm hơn trên điện thoại */
+    white-space: nowrap;
+}
+
+.nav-menu li a:hover {
+    color: #111111;
+}
+
+/* Hiệu ứng gạch chân */
+.nav-menu li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px; /* Tăng độ dày lên 2px nhìn sẽ sắc nét hơn */
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #111111;
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Chuyển động mượt mà hơn */
+    border-radius: 2px;
+}
+
+.nav-menu li a:hover::after {
+    width: 100%;
+}
+
+/* Trạng thái đang chọn (Active) */
+.nav-menu li a.active {
+    color: #111111; /* Đổi thành màu đen hoặc màu #007bff tùy design của bạn */
+    font-weight: 600;
+}
+
+.nav-menu li a.active::after {
+    width: 100%;
+    background-color: #007bff; /* Giữ màu xanh của bạn cho trạng thái active */
+}

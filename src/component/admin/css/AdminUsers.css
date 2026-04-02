@@ -1,0 +1,76 @@
+/* AdminUsers.css */
+.admin-wrapper {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.admin-title {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 8px 12px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.basic-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.basic-table th, .basic-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.basic-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.basic-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.btn-delete {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #cc0000;
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-page {
+    padding: 5px 15px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.btn-page:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

@@ -1,0 +1,65 @@
+.content-area {
+    flex: 1;
+    background: transparent; /* Đổi thành transparent */
+    padding: 0; /* Để các card tự quản lý padding */
+}
+
+.main-layout {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 30px;
+    background-color: #f0f2f5;
+    min-height: calc(100vh - 60px); /* Trừ đi chiều cao Navbar */
+}
+
+.sidebar-wrapper {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.content-area {
+    flex: 1;
+    max-width: 800px; /* Giới hạn độ rộng Content để không bị quá loãng */
+}
+
+/* Style cho panel-list dùng chung cho cả 2 bên */
+.panel-list {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e1e4e8;
+}
+
+.panel-title {
+    background-color: #fafbfc;
+    margin: 0;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #24292e;
+    border-bottom: 1px solid #e1e4e8;
+    text-transform: capitalize;
+}
+
+.panel-content {
+    padding: 20px;
+}
+
+.placeholder-text {
+    color: #888;
+    font-size: 14px;
+    text-align: center;
+}
+
+.user-profile-box p {
+    margin: 8px 0;
+    color: #444;
+}
+
+.status-online {
+    color: #2ecc71;
+    font-size: 13px;
+    font-weight: bold;
+}

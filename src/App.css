@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* Với Tailwind v4, bạn dùng @theme để cấu hình prefix */
+@theme {
+    --prefix: "tw-";
+}

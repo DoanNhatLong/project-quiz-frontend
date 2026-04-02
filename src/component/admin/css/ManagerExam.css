@@ -1,0 +1,160 @@
+/* Container chính */
+.manager-exam-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Ô nhập liệu và nút bấm */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 300px;
+    outline: none;
+}
+
+.btn-search {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+.btn-bulk {
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* Bảng dữ liệu */
+.question-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.question-table th,
+.question-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    vertical-align: top;
+}
+
+/* Hiển thị danh sách câu trả lời */
+.answers-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.answer-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #333;
+}
+
+/* Highlight câu trả lời đúng */
+.answer-tag.correct {
+    background-color: #d4edda; /* Màu xanh lá nhạt */
+    border-color: #28a745;
+    color: #155724;
+    font-weight: bold;
+}
+
+/* Tùy chỉnh Checkbox cho to và dễ bấm hơn */
+.custom-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #007bff; /* Đổi màu checkbox khi tích chọn */
+}
+
+/* Pagination button chung */
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Container tổng */
+.manager-exam-container {
+    position: relative;
+}
+
+/* Thanh công cụ tìm kiếm và nút thêm */
+.manager-exam-action-bar {
+    position: sticky;
+    /* Giả sử ExamProgressSticky cao khoảng 80px-100px.
+       Bạn điều chỉnh con số này để nó dính ngay dưới thanh tiến trình */
+    top: 90px;
+
+    z-index: 999; /* Thấp hơn ExamProgressSticky một chút (1000) */
+    background-color: #fff;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* Thêm shadow nhẹ để khi cuộn đè lên bảng nhìn rõ hơn */
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 4px 6px -6px #00000033;
+}
+
+/* Tùy chỉnh nút Bulk để trông chuyên nghiệp hơn khi dính */
+.btn-bulk {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-bulk:disabled {
+    cursor: not-allowed;
+    background-color: #ccc !important;
+}
+
+/* Đảm bảo bảng không bị che khuất */
+.question-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.manager-exam-action-bar {
+    position: sticky;
+    top: 71px; /* Khoảng cách này tùy thuộc vào chiều cao thanh Progress của bạn */
+    z-index: 999;
+
+    /* QUAN TRỌNG: Đổ nền trắng để che nội dung bảng khi cuộn */
+    background-color: #ffffff;
+
+    /* PADDING: Tạo khoảng cách với mép trên, dưới, trái, phải */
+    padding: 15px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* Đường kẻ mờ ở dưới để phân tách với bảng dữ liệu */
+    border-bottom: 1px solid #eee;
+
+    /* Bo góc nếu bạn muốn thanh search trông tách biệt (tùy chọn) */
+    /* border-radius: 0 0 8px 8px; */
+}
+
+/* Khoảng cách giữa ô input và nút tìm kiếm */
+.search-group {
+    display: flex;
+    gap: 10px;
+}

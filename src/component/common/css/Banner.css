@@ -1,0 +1,38 @@
+.main-banner-container {
+    /* Thay đổi từ fixed sang sticky */
+    position: sticky;
+    top: 60px; /* Dính ngay dưới Navbar (giả sử Navbar cao 60px) */
+
+    width: 100%;
+    z-index: 999;
+
+    /* Thiết kế NES.css */
+    background-color: #ffffff !important;
+    margin: 0 0 20px 0 !important; /* Margin-bottom 20px để tạo khoảng cách với Content */
+    padding: 10px 0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    margin-bottom: 50px !important;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.banner-pixel-art {
+    height: 80px; /* Tùy chỉnh kích thước hình động của bạn */
+    image-rendering: pixelated; /* Giữ độ sắc nét cho ảnh pixel */
+}
+
+
+@keyframes blink-animation {
+    to { visibility: hidden; }
+}

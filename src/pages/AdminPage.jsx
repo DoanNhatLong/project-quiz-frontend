@@ -1,0 +1,81 @@
+import { useSelector } from 'react-redux';
+import { Link, Navigate, Outlet, useLocation } from 'react-router-dom';
+import './css/AdminLayout.css';
+
+const AdminPage = () => {
+    const user = useSelector((state) => state.user.data);
+    const location = useLocation();
+
+    const isAdmin = user && user.roles === 'admin';
+
+    if (!isAdmin) {
+        return <Navigate to="/" replace />;
+    }
+
+    return (
+        <div className="admin-container">
+            <aside className="admin-sidebar">
+                <div className="admin-logo">ADMIN PANEL</div>
+                <nav className="admin-nav">
+                    <Link
+                        to="/admin"
+                        className={`admin-link ${location.pathname === '/admin' ? 'active' : ''}`}
+                    >
+                        Dashboard
+                    </Link>
+                    <Link
+                        to="/admin/quiz"
+                        className={`admin-link ${location.pathname === '/admin/quiz' ? 'active' : ''}`}
+                    >
+                        Quản lý Quiz
+                    </Link>
+                    <Link
+                        to="/admin/users"
+                        className={`admin-link ${location.pathname === '/admin/users' ? 'active' : ''}`}
+                    >
+                        Quản lý Users
+                    </Link>
+                    <Link
+                        to="/admin/exam"
+                        className={`admin-link ${location.pathname === '/admin/exam' ? 'active' : ''}`}
+                    >
+                        Tạo đề thi
+                    </Link>
+                    <Link
+                        to="/admin/manager-exam"
+                        className={`admin-link ${location.pathname === '/admin/manager-exam' ? 'active' : ''}`}
+                    >
+                        Quản lý đề thi
+                    </Link>
+                    <Link
+                        to="/admin/create-challenge"
+                        className={`admin-link ${location.pathname === '/admin/create-challenge' ? 'active' : ''}`}
+                    >
+                        Tạo cuộc thi
+                    </Link>
+                    <Link
+                        to="/admin/report"
+                        className={`admin-link ${location.pathname === '/admin/report' ? 'active' : ''}`}
+                    >
+                        <span style={{ color: '#ff4757', fontWeight: 'bold' }}>Khiếu nại ghi nhận</span>
+                    </Link>
+                    <Link
+                        to="/admin/log"
+                        className={`admin-link ${location.pathname === '/admin/log' ? 'active' : ''}`}
+                    >
+                        <span style={{ color: 'yellow', fontWeight: 'bold' }}>Xem log</span>
+                    </Link>
+                </nav>
+                <Link to="/home" className="admin-logout">
+                    Thoát hệ thống
+                </Link>
+            </aside>
+
+            <main className="admin-content">
+                <Outlet />
+            </main>
+        </div>
+    );
+};
+
+export default AdminPage;
