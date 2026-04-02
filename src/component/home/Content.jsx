@@ -4,12 +4,13 @@ import './css/Content.css';
 
 const Content = () => {
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.BASE_URL;
 
     const cards = [
-        { id: 1, title: 'JavaScript', img: '/assets/image/js.jpg', desc: 'Master JS Fundamentals' },
-        { id: 2, title: 'Java', img: '/assets/image/java.jpg', desc: 'Deep dive into Java' },
-        { id: 3, title: 'Store', img: '/assets/image/store.jpg', desc: 'Exchange your point' },
-        { id: 4, title: 'Challenger', img: '/assets/image/challenger.jpg', desc: 'Daily challenges' }
+        { id: 1, title: 'JavaScript', img: `${baseUrl}/assets/image/js.jpg`, desc: 'Master JS Fundamentals' },
+        { id: 2, title: 'Java', img: `${baseUrl}/assets/image/java.jpg`, desc: 'Deep dive into Java' },
+        { id: 3, title: 'Store', img: `${baseUrl}/assets/image/store.jpg`, desc: 'Exchange your point' },
+        { id: 4, title: 'Challenger', img: `${baseUrl}/assets/image/challenger.jpg`, desc: 'Daily challenges' }
     ];
 
     const handleCardClick = (id) => {

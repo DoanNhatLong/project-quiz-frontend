@@ -9,16 +9,17 @@ import {BackButton} from "../../utils/Back.jsx";
 
 export default function QuizJS() {
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.BASE_URL;
 
     const user = useSelector((state) => state.user.data);
     const userExp = user?.xp || 0;
 
     const levels = [
-        {id: 1, name: 'LEVEL 1', requiredExp: 0, guestAccessible: true, image: "src/assets/image/level1.jpg"},
-        {id: 2, name: 'LEVEL 2', requiredExp: 100, guestAccessible: false, image: "src/assets/image/level2.jpg"},
-        {id: 3, name: 'LEVEL 3', requiredExp: 200, guestAccessible: false, image: "src/assets/image/level3.jpg"},
-        {id: 4, name: 'LEVEL 4', requiredExp: 500, guestAccessible: false, image: "src/assets/image/level4.jpg"},
-        {id: 5, name: 'LEVEL 5', requiredExp: 1000, guestAccessible: false, image: "src/assets/image/level5.jpg"},
+        {id: 1, name: 'LEVEL 1', requiredExp: 0, guestAccessible: true, image: `${baseUrl}/assets/image/level1.jpg`},
+        {id: 2, name: 'LEVEL 2', requiredExp: 100, guestAccessible: false, image: `${baseUrl}/assets/image/level2.jpg`},
+        {id: 3, name: 'LEVEL 3', requiredExp: 200, guestAccessible: false, image: `${baseUrl}/assets/image/level3.jpg`},
+        {id: 4, name: 'LEVEL 4', requiredExp: 500, guestAccessible: false, image: `${baseUrl}/assets/image/level4.jpg`},
+        {id: 5, name: 'LEVEL 5', requiredExp: 1000, guestAccessible: false, image: `${baseUrl}/assets/image/level5.jpg`},
     ];
 
     const handleStartQuiz = async (quizId) => {
