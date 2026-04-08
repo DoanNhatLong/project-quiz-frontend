@@ -12,7 +12,7 @@ export const userService = {
 
     registerUser: (userData) => {
         const {username, email, password} = userData;
-        return api.post(`/register`, {username, email, password});
+        return api.post(`/auth/register`, {username, email, password});
     },
 
     checkDuplicate: (field, value, users) => {
@@ -21,7 +21,7 @@ export const userService = {
     },
 
     loginUser: async (credentials) => {
-        return await api.post(`/login`, credentials);
+        return await api.post(`/auth/login`, credentials);
     },
     addXp: (payload) => {
         return api.post("/users/add-xp", payload)
