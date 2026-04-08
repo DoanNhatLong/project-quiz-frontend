@@ -5,7 +5,7 @@ let stompClient = null;
 
 
 export const connectSocket = (onMessage) => {
-    const baseURL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL;
+    const baseURL = import.meta.env.VITE_API_BASE_URL || 'https://quiz-backend-v1.onrender.com';
 
     if (!baseURL) {
         console.error("❌ Không tìm thấy API URL trong biến môi trường!");

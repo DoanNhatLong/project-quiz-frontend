@@ -31,9 +31,9 @@ const Register = () => {
             username: Yup.string()
                 .required('Bắt buộc nhập username')
                 .min(2, 'Username phải có ít nhất 2 ký tự')
-                .max(30, 'Username không được quá 30 ký tự')
-                .test('checkUnique', 'Username đã tồn tại',
-                    value => !userService.checkDuplicate('username', value, users)),
+                .max(30, 'Username không được quá 30 ký tự'),
+                // .test('checkUnique', 'Username đã tồn tại',
+                //     value => !userService.checkDuplicate('username', value, users)),
             email: Yup.string()
                 .required('Bắt buộc nhập email')
                 .min(10, 'Email quá ngắn (tối thiểu 10 ký tự)')
