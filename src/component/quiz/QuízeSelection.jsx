@@ -15,7 +15,8 @@ export default function QuizSelection() {
 
     const config = {
         JS: { firstLevelId: 1, title: "JAVASCRIPT ADVENTURE" },
-        Java: { firstLevelId: 6, title: "JAVA ADVENTURE" }
+        Java: { firstLevelId: 6, title: "JAVA ADVENTURE" },
+        Toeic: {firstLevelId: 9, title:"Toeic"}
     };
 
     const currentConfig = config[language] || config.JS;
@@ -29,6 +30,9 @@ export default function QuizSelection() {
     ];
 
     const handleStartQuiz = async (quizId) => {
+        const navigationState = {
+            language: language || "JS"
+        };
         if (quizId === currentConfig.firstLevelId) {
             if (!user) {
                 navigate(`/quiz-play/${quizId}/guest`);
@@ -39,7 +43,7 @@ export default function QuizSelection() {
                     quizId: quizId,
                     userId: user.id
                 });
-                navigate(`/quiz-play/${quizId}/${response.data.id}`);
+                navigate(`/quiz-play/${quizId}/${response.data.id}` ,{ state: navigationState });
             } catch (error) {
                 toast.error("Không thể khởi tạo lượt làm bài!");
                 console.log(error);

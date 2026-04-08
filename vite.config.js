@@ -8,7 +8,6 @@ export default defineConfig({
         react(),
         tailwindcss(),
     ],
-    base: '/project-quiz-frontend/',
     define: {
         // Cấu hình này giúp các thư viện cũ (như sockjs-client)
         // hiểu được biến global trong môi trường trình duyệt.

@@ -112,36 +112,26 @@
     font-size: 1.1rem;
 }
 
-/* Footer & Buttons */
 .quiz-footer {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-top: 30px;
+}
+
+.quiz-footer button {
+    width: auto;
+    flex-shrink: 0;
 }
 
 button {
     padding: 12px 28px;
     border-radius: 10px;
     font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
-}
-
-.btn-back {
-    background: #334155;
-    color: #f8fafc;
-}
-
-.btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
-
-.btn-next, .btn-submit {
-    background: #3b82f6;
-    color: white;
-}
-
-.btn-submit {
-    background: #10b981; /* Màu xanh lá cho nút nộp bài */
 }
 
 button:hover:not(:disabled) {
@@ -149,12 +139,30 @@ button:hover:not(:disabled) {
     transform: scale(1.02);
 }
 
-button:disabled {
-    background: #1e293b;
-    color: #475569;
+.btn-back {
+    background: #334155;
+    color: #f8fafc;
 }
 
-/* Loading Spinner */
+.btn-back:disabled {
+    background: transparent;
+    color: transparent;
+    pointer-events: none;
+}
+
+.btn-next {
+    background: #3b82f6;
+    color: white;
+    width: auto;
+}
+
+.btn-submit {
+    background: #10b981 !important;
+    color: white;
+    width: auto;
+}
+
+
 .loading-container {
     height: 100vh;
     display: flex;

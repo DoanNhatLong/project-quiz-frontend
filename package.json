@@ -1,12 +1,9 @@
 {
   "name": "react",
-  "homepage": "https://DoanNhatLong.github.io/project-quiz-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -15,6 +12,7 @@
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^2.0.2",
     "@reduxjs/toolkit": "^2.11.2",
+    "@stomp/stompjs": "^7.3.0",
     "@tailwindcss/vite": "^4.2.2",
     "axios": "^1.13.6",
     "bootstrap": "^5.3.8",
@@ -37,7 +35,6 @@
     "rpg-awesome": "^0.2.0",
     "socket.io-client": "^2.4.0",
     "sockjs-client": "^1.6.1",
-    "stompjs": "^2.3.3",
     "sweetalert2": "^11.26.24",
     "tailwindcss": "^4.2.2",
     "xlsx": "^0.18.5",
@@ -51,7 +48,6 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
-    "gh-pages": "^6.3.0",
     "globals": "^17.4.0",
     "vite": "^8.0.1"
   }

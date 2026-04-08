@@ -1,0 +1,95 @@
+.admin-report-container {
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.report-table th {
+    background-color: #333;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.report-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Badge màu sắc */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.pending { background: #ffeeba; color: #856404; }
+.solved { background: #d4edda; color: #155724; }
+
+/* Buttons */
+.btn-group {
+    display: flex;
+    gap: 8px;
+}
+.btn-process {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.btn-delete {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.btn-process:hover { opacity: 0.8; }
+.btn-delete:hover { opacity: 0.8; }
+
+.btn-undo {
+    background: #6c757d; /* Màu xám */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.btn-undo:hover { opacity: 0.8; }
+
+/* Làm mờ các dòng đã xử lý để làm nổi bật hàng Pending */
+tr[style*="opacity: 0.7"] {
+    background-color: #fafafa;
+}
+
+/* Tối ưu hiển thị bảng */
+.report-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.report-table td div {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.report-table td small {
+    color: #666;
+}
+
+/* Căn chỉnh lại badge cho đẹp hơn */
+.badge {
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 11px;
+}

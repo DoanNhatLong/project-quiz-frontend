@@ -14,8 +14,23 @@ export default function CheckExam() {
     const loadExams = () => {
         setLoading(true);
         getAllExams()
-            .then(res => { setExams(res); setLoading(false); })
-            .catch(err => { console.error(err); setLoading(false); });
+            .then(res => {
+                console.log("TYPE:", typeof res);
+                console.log("RAW:", res);
+
+                if (Array.isArray(res)) {
+                    console.log("=> ARRAY");
+                    setExams(res);
+                } else if (res?.content && Array.isArray(res.content)) {
+                    console.log("=> PAGE");
+                    setExams(res.content);
+                } else {
+                    console.log("=> KHÔNG MATCH");
+                    setExams([]);
+                }
+
+                setLoading(false);
+            })
     };
 
     useEffect(() => {
@@ -34,7 +49,7 @@ export default function CheckExam() {
             deleteExam(selectedExamId)
                 .then(() => {
                     setIsModalOpen(false);
-                    loadExams(); // Refresh danh sách sau khi xóa mềm
+                    loadExams();
                 })
                 .catch(err => console.error("Lỗi xóa:", err));
         }
@@ -45,14 +60,15 @@ export default function CheckExam() {
         return <div className="nes-text is-error" style={{padding: '20px'}}>Loading...</div>;
     }
 
+    console.log("RENDER exams:", exams);
+
     return (
         <div style={{padding: '20px', maxWidth: '1000px', margin: '0 auto'}}>
-            <h2 style={{marginBottom: '20px'}}>Danh sách đề thi đã tạo</h2>
 
             <div style={{display: 'grid', gap: '15px'}}>
                 {exams.length > 0 ? (
-                    exams.map((item) => (
-                        <div key={item.id} style={{
+                    exams?.map((item) => (
+                        <div key={item?.id} style={{
                             border: '1px solid #ccc',
                             padding: '15px',
                             borderRadius: '8px',
@@ -66,11 +82,11 @@ export default function CheckExam() {
                                 <p style={{margin: '0', color: '#666', fontSize: '14px'}}>{item.description}</p>
                                 <div style={{marginTop: '10px', fontSize: '13px', display: 'flex', gap: '15px'}}>
                                     <span style={{fontWeight: 'bold', color: '#0056b3'}}>
-                                    📝 {item.examQuestions.length || 0} câu hỏi
+                                    📝 {item?.examQuestions?.length || 0} câu hỏi
                                     </span>
-                                    <span>⏱ {item.durationMinutes} phút</span>
-                                    <span>🎯 Điểm đạt: {item.passScorePercentage * 100}%</span>
-                                    <span>👤 Người tạo: <strong>{item.user.username || "N/A"}</strong></span>
+                                    <span>⏱ {item?.durationMinutes} phút</span>
+                                    <span>🎯 Điểm đạt: {item?.passScorePercentage * 100}%</span>
+                                    <span>👤 Người tạo: <strong>{item?.user?.username || "N/A"}</strong></span>
                                 </div>
                             </div>
 

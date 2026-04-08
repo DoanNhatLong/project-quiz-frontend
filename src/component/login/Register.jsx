@@ -10,7 +10,7 @@ import "./css/Register.css";
 const Register = () => {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
-    const captchaRef = useRef(null); // Ref để điều khiển hCaptcha (reset khi cần)
+    const captchaRef = useRef(null);
 
     // Site Key thử nghiệm (luôn chạy trên localhost), thay bằng Key thật của bạn khi xong
     const SITE_KEY = "46e49518-c828-44f0-8dc4-9aecc8dce718";
@@ -30,11 +30,18 @@ const Register = () => {
         validationSchema: Yup.object({
             username: Yup.string()
                 .required('Bắt buộc nhập username')
+                .min(2, 'Username phải có ít nhất 2 ký tự')
+                .max(30, 'Username không được quá 30 ký tự')
                 .test('checkUnique', 'Username đã tồn tại',
                     value => !userService.checkDuplicate('username', value, users)),
             email: Yup.string()
-                .email('Email không hợp lệ')
                 .required('Bắt buộc nhập email')
+                .min(10, 'Email quá ngắn (tối thiểu 10 ký tự)')
+                .max(50, 'Email quá dài (tối đa 50 ký tự)')
+                .matches(
+                    /^[a-z0-9.]+@gmail\.com$/,
+                    'Email phải là định dạng @gmail.com (ví dụ: user123@gmail.com)'
+                )
                 .test('checkUnique', 'Email đã tồn tại',
                     value => !userService.checkDuplicate('email', value, users)),
             password: Yup.string()
@@ -46,8 +53,7 @@ const Register = () => {
             // Bắt buộc phải giải Captcha mới cho Submit
             captchaToken: Yup.string().required('Vui lòng xác minh bạn không phải robot'),
         }),
-        onSubmit: (values) => {
-            // Loại bỏ các trường không cần gửi lên Server (confirmPassword, captchaToken)
+        onSubmit: (values, { setSubmitting }) => { // 1. Thêm setSubmitting ở đây
             const { confirmPassword, captchaToken, ...dataSubmit } = values;
 
             userService.registerUser(dataSubmit)
@@ -56,11 +62,17 @@ const Register = () => {
                     formik.resetForm();
                     navigate('/login');
                 })
-                .catch(() => {
-                    toast.error("Có lỗi xảy ra! Vui lòng thử lại.");
-                    // Đăng ký lỗi thì bắt làm lại Captcha mới cho "khó chịu"
-                    captchaRef.current.resetCaptcha();
+                .catch((error) => {
+                    const serverError = error.response?.data || "Có lỗi xảy ra! Vui lòng thử lại.";
+                    toast.error(serverError);
+
+                    if (captchaRef.current) {
+                        captchaRef.current.resetCaptcha();
+                    }
                     formik.setFieldValue("captchaToken", "");
+                })
+                .finally(() => {
+                    setSubmitting(false);
                 });
         },
     });

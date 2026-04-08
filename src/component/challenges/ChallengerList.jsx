@@ -6,6 +6,7 @@ import "./css/ChallengerList.css";
 import {getAllChallengers} from "../../service/adminService.js";
 import {toast} from "react-toastify";
 import {BackButton} from "../../utils/Back.jsx";
+import Swal from "sweetalert2";
 
 export default function ChallengerList() {
     const { data: challengers, loading, error } = useApi(getAllChallengers, []);
@@ -23,18 +24,24 @@ export default function ChallengerList() {
     };
 
     const handleJoinClick = (item) => {
-        const inputCode = prompt(`Nhập mã truy cập cho thử thách: ${item.title}`);
+        Swal.fire({
+            title: `Nhập mã để vào phòng thi: ${item.title}`,
+            input: 'text',
+            showCancelButton: true,
+        }).then((result) => {
+            const inputCode = result.value;
 
-        if (inputCode === null) return;
+            if (result.isDismissed || inputCode === undefined) return;
 
-        if (inputCode.trim() === item.accessCode) {
-            toast.success("Mã chính xác! Đang vào phòng chờ...");
-            navigate(`/challenger/waiting/${item.id}`, {
-                state: { isVerified: true }
-            });
-        } else {
-            toast.error("Mã truy cập không đúng. Vui lòng thử lại!");
-        }
+            if (inputCode.trim() === item.accessCode) {
+                toast.success("Mã chính xác! Đang vào phòng chờ...");
+                navigate(`/challenger/waiting/${item.id}`, {
+                    state: { isVerified: true }
+                });
+            } else {
+                toast.error("Mã truy cập không đúng. Vui lòng thử lại!");
+            }
+        });
     };
 
     return (

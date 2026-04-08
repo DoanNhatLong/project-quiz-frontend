@@ -134,3 +134,17 @@
 }
 
 .btn-submit:hover { background: #074b83; transform: translateY(-2px); }
+
+.exam-wrapper {
+    /* Chặn bôi đen trên tất cả các trình duyệt hiện đại */
+    user-select: none;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;      /* Internet Explorer/Edge cũ */
+    -moz-user-select: none;     /* Firefox */
+}
+
+/* Nếu bạn vẫn muốn cho phép người dùng bôi đen ở các ô Input (nếu có) */
+input, textarea {
+    user-select: text;
+    -webkit-user-select: text;
+}

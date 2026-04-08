@@ -1,0 +1,30 @@
+/* Bo tròn khung container */
+.custom-container {
+    border-radius: 15px !important;
+    padding: 20px !important;
+}
+
+/* Bo tròn tất cả các nút bấm */
+.custom-container .nes-btn {
+    border-radius: 12px !important;
+}
+
+/* Giữ cấu trúc dàn trang cũ của bạn */
+.side-wrapper {
+    padding: 20px;
+    width: 300px;
+}
+
+.content-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-stack {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

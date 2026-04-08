@@ -4,9 +4,17 @@ import ExamConfigModal from "../../utils/modal/ExamConfigModal.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {resetEditor, updateExamInfo} from "../../redux/examEditorSlice.js";
 import ResumeDraftModal from "../../utils/modal/ResumeDraftModal.jsx";
-import {BackButton} from "../../utils/Back.jsx";
 import {useApi} from "../../hooks/useApi.jsx";
 import {getAllSubjects} from "../../service/adminService.js";
+import './exam/css/AdminExam.css'
+const SUBJECT_ICONS = {
+    'java': '☕',
+    'js': '⚛️',
+    'math': '📐',
+    'toeic': '📜',
+    'chemistry': '⚗️',
+    'default': '📝'
+};
 
 const AdminExam = () => {
     const navigate = useNavigate();
@@ -15,6 +23,11 @@ const AdminExam = () => {
     const { data: subjects, loading: loadingSubjects } = useApi(getAllSubjects);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+    const getIcon = (name) => {
+        const lowerName = name.toLowerCase();
+        const key = Object.keys(SUBJECT_ICONS).find(k => lowerName.includes(k));
+        return SUBJECT_ICONS[key] || SUBJECT_ICONS['default'];
+    };
     useEffect(() => {
         const hasQuestions = currentDraft?.selectedQuestions?.length > 0;
         const hasTitle = currentDraft?.title && currentDraft.title.trim() !== '';
@@ -63,36 +76,29 @@ const AdminExam = () => {
     };
 
 
-    const buttonStyle = {
-        padding: '20px 40px',
-        margin: '10px',
-        fontSize: '18px',
-        cursor: 'pointer',
-        borderRadius: '8px',
-        border: '1px solid #ccc',
-        backgroundColor: '#f0f0f0'
-    };
-
     return (
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center' ,
-                flexDirection: 'column',
-                gap: '20px'
-            }}>
-                <BackButton navigate={navigate} path="/admin"/>
+        <div className="admin-exam-container">
+
+            <div className="subject-grid">
                 {loadingSubjects ? (
-                    <p>Đang tải danh sách môn học...</p>
+                    <p className="loading-text">Đang tải danh sách môn học...</p>
                 ) : (
                     subjects?.map((sub) => (
-                        <button
-                            key={sub.id}
-                            style={buttonStyle}
-                            onClick={() => handleButtonClick(sub.name)}
-                        >
-                            Tạo đề {sub.name}
-                        </button>
+                        <div key={sub.id} className="subject-card">
+                            <div className="card-icon">
+                                {getIcon(sub.name)}
+                            </div>
+                            <div>
+                                <h3>{sub.name}</h3>
+                                <p>Bắt đầu thiết lập cấu hình và câu hỏi cho đề thi mới.</p>
+                            </div>
+                            <button
+                                className="btn-create"
+                                onClick={() => handleButtonClick(sub.name)}
+                            >
+                                Tạo đề thi ngay
+                            </button>
+                        </div>
                     ))
                 )}
             </div>

@@ -1,4 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
+import {Client} from '@stomp/stompjs';
 import {
     calculateScore,
     createSnapshot,
@@ -7,25 +8,98 @@ import {
     tempExam
 } from "../../service/adminService.js";
 import {useApi} from "../../hooks/useApi.jsx";
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import "./css/ChallengerStart.css";
 import {useProgressSaver} from "../../hooks/useProgressSaver.jsx";
 import {toast} from "react-toastify";
 import MarkDownView from "../../utils/MarkDownView.jsx";
+import Swal from "sweetalert2";
+import SockJS from "sockjs-client";
 
-export default function ChallengerStart(){
+export default function ChallengerStart() {
     const params = useParams();
     const examId = params.examId;
     const apiCall = useMemo(() => () => getChallengerExam(examId), [examId]);
-    const { data: challengeInfo } = useApi(apiCall, []);
+    const {data: challengeInfo} = useApi(apiCall, []);
     const user = useSelector((state) => state.user.data);
     const hasSnapshot = useRef(false);
     const [userAnswers, setUserAnswers] = useState({})
     const [flaggedQuestions, setFlaggedQuestions] = useState({});
-    const { trackProgress } = useProgressSaver(params.attemptId);
+    const {trackProgress} = useProgressSaver(params.attemptId);
     const navigate = useNavigate();
     const isRestored = useRef(false);
+
+
+    const [secondsLeft, setSecondsLeft] = useState(null);
+    const stompClient = useRef(null);
+
+    const handleForceSubmit = useCallback(async () => {
+        let data = [];
+        for (let qId in userAnswers) {
+            let answer = userAnswers[qId];
+            if (answer !== undefined && answer !== null) {
+                data.push({
+                    questionId: Number(qId),
+                    selectedOptionIds: Array.isArray(answer) ? answer : [answer]
+                });
+            }
+        }
+
+        const finalPayload = { attemptId: String(params.attemptId), data: data };
+        try {
+            toast.warning("Hết giờ làm bài! Hệ thống tự động nộp...");
+            await tempExam(finalPayload);
+            await calculateScore(params.attemptId);
+            navigate(`/challenger/result/${params.attemptId}`, { replace: true });
+        } catch (err) {
+            navigate(`/home`);
+            console.log(err);
+        }
+    }, [userAnswers, params.attemptId, navigate]); // Thêm dependencies
+
+// 2. Cập nhật useEffect cho Socket
+    useEffect(() => {
+        const socketUrl = `${import.meta.env.VITE_API_BASE_URL}/ws`;
+
+        const client = new Client({
+            webSocketFactory: () => new SockJS(socketUrl),
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+            onConnect: () => {
+                console.log("✅ Connected WebSocket");
+                client.subscribe(`/topic/exam_timer/${params.attemptId}`, (msg) => {
+                    const remaining = parseInt(msg.body);
+                    setSecondsLeft(remaining);
+                    if (remaining <= 0) {
+                        handleForceSubmit(); // Bây giờ hàm này đã an toàn để gọi
+                    }
+                });
+            },
+            onStompError: (frame) => {
+                console.error('Broker reported error: ' + frame.headers['message']);
+            },
+        });
+
+        client.activate();
+        stompClient.current = client;
+
+        return () => {
+            if (stompClient.current) {
+                stompClient.current.deactivate();
+            }
+        };
+    }, [params.attemptId, handleForceSubmit])
+
+
+    const formatTime = (s) => {
+        if (s === null) return "Đang kết nối...";
+        if (s <= 0) return "00:00";
+        const mins = Math.floor(s / 60);
+        const secs = s % 60;
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
 
     const questions = useMemo(() => {
         if (!challengeInfo) return [];
@@ -108,7 +182,7 @@ export default function ChallengerStart(){
 
             trackProgress(answerData);
 
-            return { ...prev, [questionId]: updatedEntry };
+            return {...prev, [questionId]: updatedEntry};
         });
     };
     const handleRightClick = (e, questionId) => {
@@ -118,8 +192,6 @@ export default function ChallengerStart(){
             [questionId]: !prev[questionId]
         }));
     };
-
-
 
 
     useEffect(() => {
@@ -159,29 +231,42 @@ export default function ChallengerStart(){
             return;
         }
 
-        const finalPayload = {
-            attemptId: String(params.attemptId),
-            data: data
-        };
+        Swal.fire({
+            title: 'Xác nhận nộp bài?',
+            text: "Bạn có chắc chắn muốn nộp bài thi này không?",
+            showCancelButton: true,
+            confirmButtonText: 'Nộp bài',
+            cancelButtonText: 'Hủy'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const finalPayload = {
+                    attemptId: String(params.attemptId),
+                    data: data
+                };
 
-        console.log("🚀 FINAL:", finalPayload);
+                try {
+                    await tempExam(finalPayload);
+                    await calculateScore(params.attemptId);
+                    navigate(`/challenger/result/${params.attemptId}`, {replace: true});
+                    toast.success("Nộp bài thành công");
 
-        try {
-            await tempExam(finalPayload);
-            await calculateScore(params.attemptId);
-            navigate(`/challenger/result/${params.attemptId}`, { replace: true });
-            toast.success("Nộp bài thành công");
-
-        } catch (err) {
-            console.error("Lỗi khi nộp bài:", err.response?.data);
-            toast.error("Có lỗi xảy ra khi nộp bài!");
-        }
+                } catch (err) {
+                    console.error("Lỗi khi nộp bài:", err.response?.data);
+                    toast.error("Có lỗi xảy ra khi nộp bài!");
+                }
+            }
+        });
     };
 
     return (
         <div className="exam-wrapper">
             <div className="exam-content">
                 <div className="exam-header">
+                    <p className="timer">
+                        Thời gian còn lại: <strong style={{color: secondsLeft < 60 ? 'red' : 'black'}}>
+                        {formatTime(secondsLeft)}
+                    </strong>
+                    </p>
                     <p>Thí sinh: <strong>{user?.username}</strong></p>
                 </div>
 
@@ -196,7 +281,7 @@ export default function ChallengerStart(){
                             <div className="question-title">
                                 <span className="q-number">Câu {index + 1}:</span>
                                 <span className="q-text">
-                                 <MarkDownView content=  {q.content}/>
+                                 <MarkDownView content={q.content}/>
                                 </span>
                             </div>
 
@@ -252,7 +337,8 @@ export default function ChallengerStart(){
 
                     <div className="legend">
                         <div className="legend-item"><span className="box done"></span> Đã làm</div>
-                        <div className="legend-item"><span className="box flagged"></span> Nghi ngờ (Chuột phải)</div>
+                        <div className="legend-item"><span className="box flagged"></span> Nghi ngờ (Chuột phải)
+                        </div>
                         <div className="legend-item"><span className="box pending"></span> Chưa làm</div>
                     </div>
 

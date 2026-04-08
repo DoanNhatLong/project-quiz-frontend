@@ -15,14 +15,14 @@ const AdminQuiz = () => {
     const [selectedQuiz, setSelectedQuiz] = useState(null);
 
     const fetchQuizzes = () => {
-        api.get('http://localhost:8080/quizzes')
+        api.get(`${import.meta.env.VITE_API_BASE_URL}/quizzes`)
             .then(response => setQuizzes(response.data))
             .catch(error => console.error("Lỗi:", error));
     };
 
     const handleSaveQuiz = async (quizData) => {
         try {
-            const response = await api.post('http://localhost:8080/quizzes/create', quizData);
+            const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/quizzes/create`, quizData);
             if (response.status === 201 || response.status === 200) {
                 toast.success("Tạo Quiz mới thành công!");
                 setIsModalOpen(false);
@@ -35,7 +35,7 @@ const AdminQuiz = () => {
     };
 
     useEffect(() => {
-        api.get('http://localhost:8080/quizzes')
+        api.get(`${import.meta.env.VITE_API_BASE_URL}/quizzes`)
             .then(response => {
                 setQuizzes(response.data);
                 setIsLoading(false);

@@ -1,7 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
-import axios from 'axios';
 import {buildTeacherPrompt, buildTeacherPromptAcademic} from "../../utils/aiPromptHelper.jsx";
 import api from "../../api/axios.js";
 import {useApi} from "../../hooks/useApi.jsx";
@@ -115,7 +114,7 @@ export default function AdminAIAssistant() {
         });
 
         try {
-            const res = await api.post("http://localhost:8080/questions/upload-list", payload);
+            const res = await api.post(`${import.meta.env.VITE_API_BASE_URL}/questions/upload-list`, payload);
             if (res.status === 200 || res.status === 201) {
                 toast.success(`Đã thêm thành công ${payload.length} câu hỏi vào kho!`);
                 navigate(`/admin/quiz`);

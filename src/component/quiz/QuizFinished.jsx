@@ -12,7 +12,7 @@ export default function QuizFinished() {
     const dispatch = useDispatch();
 
 
-    const {resultData, isFreshSubmit, quizLevel} = location.state || {};
+    const {resultData, isFreshSubmit, quizLevel, language} = location.state || {};
     const [showReward, setShowReward] = useState(false);
     const [xpStatus, setXpStatus] = useState("");
 
@@ -94,7 +94,7 @@ export default function QuizFinished() {
                     </div>
 
                     <div className="quiz-finished-buttons">
-                        <button onClick={() => navigate("/quiz-js")} className="nes-btn">
+                        <button onClick={() => navigate(`/quiz/${language}`)} className="nes-btn">
                             THỬ LẠI
                         </button>
                         <button onClick={() => navigate(`/quiz-review/${quizAttemptId}`)}

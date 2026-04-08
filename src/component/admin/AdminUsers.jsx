@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from "../../api/axios.js";
 import './css/AdminUsers.css';
+import Swal from "sweetalert2";
 
 export default function AdminUsers() {
     const [users, setUsers] = useState([]);
@@ -31,11 +32,25 @@ export default function AdminUsers() {
         return () => clearTimeout(timer);
     }, [currentPage, searchTerm]);
 
-    const handleDelete = async (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn block?")) {
-            await api.delete(`/users/${id}`);
-            fetchUsers(currentPage, searchTerm);
-        }
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Xác nhận xóa?",
+            showCancelButton: true,
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                api.delete(`/users/${id}`)
+                    .then(() => {
+                        Swal.fire("Đã xóa!", "Người dùng đã được xóa thành công.", "success");
+                        fetchUsers(currentPage, searchTerm);
+                    })
+                    .catch((error) => {
+                        console.error("Lỗi khi xóa:", error);
+                        Swal.fire("Lỗi!", "Không thể xóa người dùng này.", "error");
+                    });
+            }
+        });
     };
 
     return (
@@ -58,7 +73,7 @@ export default function AdminUsers() {
                     <th>Username</th>
                     <th>Email</th>
                     <th>XP</th>
-                    <th>Point</th>
+                    <th>Vai trò</th>
                     <th>Hành động</th>
                 </tr>
                 </thead>
@@ -69,11 +84,12 @@ export default function AdminUsers() {
                         <td>{user.username}</td>
                         <td>{user.email}</td>
                         <td style={{color: 'blue', fontWeight: 'bold'}}>{user.xp}</td>
-                        <td style={{color: 'green', fontWeight: 'bold'}}>{user.point}</td>
+                        <td style={{color: 'green', fontWeight: 'bold'}}>{user.roles.name}</td>
                         <td>
                             <button className="btn-delete" onClick={() => handleDelete(user.id)}>
                                 Block
                             </button>
+
                         </td>
                     </tr>
                 ))}
@@ -89,7 +105,7 @@ export default function AdminUsers() {
                     Trước
                 </button>
 
-                <span>Trang {currentPage + 1} / {totalPages || 1}</span>
+                <span>Trang {currentPage + 1} / {totalPages}</span>
 
                 <button
                     className="btn-page"

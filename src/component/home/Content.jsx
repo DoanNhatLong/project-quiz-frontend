@@ -4,22 +4,21 @@ import './css/Content.css';
 
 const Content = () => {
     const navigate = useNavigate();
-    const baseUrl = import.meta.env.BASE_URL;
 
     const cards = [
-        { id: 1, title: 'JavaScript', img: `${baseUrl}/assets/image/js.jpg`, desc: 'Master JS Fundamentals' },
-        { id: 2, title: 'Java', img: `${baseUrl}/assets/image/java.jpg`, desc: 'Deep dive into Java' },
-        { id: 3, title: 'Store', img: `${baseUrl}/assets/image/store.jpg`, desc: 'Exchange your point' },
-        { id: 4, title: 'Challenger', img: `${baseUrl}/assets/image/challenger.jpg`, desc: 'Daily challenges' }
+        { id: 2, title: 'Java', img: '/assets/image/java.jpg', desc: 'Viết một lần, chạy mọi nơi' },
+        { id: 1, title: 'JavaScript', img: '/assets/image/js.jpg', desc: 'Ngôn ngữ vạn năng' },
+        { id: 3, title: 'Cửa hàng', img: '/assets/image/store.jpg', desc: 'Mua một số thứ nào' },
+        { id: 4, title: 'Cuộc thi', img: '/assets/image/challenger.jpg', desc: 'Thể hiện thành quả' }
     ];
 
     const handleCardClick = (id) => {
         switch (id) {
             case 1:
-                navigate('/quiz/quiz-js');
+                navigate('/quiz/js');
                 break;
             case 2:
-                navigate('/quiz/quiz-java');
+                navigate('/quiz/java');
                 break;
             case 3:
                 navigate('/store');

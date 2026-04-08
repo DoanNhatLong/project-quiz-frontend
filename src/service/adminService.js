@@ -97,8 +97,8 @@ export const createSnapshot = (snapshotPayload) => {
         .then(res => res.data);
 }
 
-export const createAttempt = (attemptPayload) => {
-    return api.post("/api/challenges/attempts", attemptPayload)
+export const createAttempt = (examId, userId, challengeId) => {
+    return api.post(`/api/challenges/attempts/${examId}/${userId}/${challengeId} `)
         .then(res => res.data);
 }
 
@@ -116,3 +116,34 @@ export const calculateScore = (attemptId) => {
     return api.post(`/api/challenges/${attemptId}/calculate`)
         .then(res => res.data);
 }
+
+export const getAllAdminLogs = (actionType) => {
+    return api.get("/admin/details/log", {
+        params: {
+            actionType: actionType
+        }
+    })
+        .then(res => res.data);
+};
+
+export const getDuration = (examId) => {
+    return api.get(`/duration/${examId}`)
+        .then(res => res.data);
+}
+
+export const getStats = () => {
+    return api.get ("/admin/details/count")
+        .then (res =>res.data)
+
+}
+
+export const checkExam = (userId) => {
+    return api.get (`/admin/challenges/check/${userId}`)
+        .then(res =>res.data)
+}
+
+export const checkResult = (examId) =>{
+    return api.get (`/check/${examId}`)
+        .then(res => res.data)
+}
+

@@ -63,3 +63,49 @@
     font-size: 13px;
     font-weight: bold;
 }
+
+/* --- RESPONSIVE CHO ĐIỆN THOẠI VÀ TABLET --- */
+
+@media (max-width: 1024px) {
+    .main-layout {
+        flex-direction: column; /* Chuyển từ hàng ngang sang hàng dọc */
+        padding: 15px; /* Giảm padding cho đỡ chiếm diện tích */
+        gap: 20px;
+    }
+
+    .sidebar-wrapper,
+    .content-area {
+        width: 100%; /* Ép các thành phần chiếm hết chiều ngang */
+        max-width: none; /* Bỏ giới hạn 800px để tràn màn hình */
+    }
+
+    /* Đổi thứ tự hiển thị nếu cần:
+       Bạn có thể dùng order để đưa Content lên đầu, Sidebar xuống dưới */
+    .content-area {
+        order: 1;
+    }
+    .sidebar-wrapper:first-child { /* LeftSide */
+        order: 2;
+    }
+    .sidebar-wrapper:last-child { /* RightSide */
+        order: 3;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-layout {
+        padding: 10px;
+        gap: 15px;
+    }
+
+    /* Chỉnh lại font chữ và padding bên trong các panel cho mobile */
+    .panel-title {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .panel-content {
+        padding: 15px;
+    }
+}
+

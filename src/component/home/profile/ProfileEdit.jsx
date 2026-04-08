@@ -42,6 +42,8 @@ const ProfileEdit = () => {
 
             const updatedUser = response.data;
             const currentToken = localStorage.getItem('token'); // Lấy lại token đang dùng
+            updatedUser.roles = updatedUser.roles?.name || updatedUser.roles;
+            updatedUser.token = currentToken;
 
             dispatch(setUser({
                 ...updatedUser,

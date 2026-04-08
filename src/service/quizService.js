@@ -1,8 +1,8 @@
 import api from "../api/axios.js";
 
 
-const API_BASE_URL = "http://localhost:8080/quizzes";
-const API_ATTEMPTS_URL = "http://localhost:8080/quiz-attempts";
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/quizzes`;
+const API_ATTEMPTS_URL = `${import.meta.env.VITE_API_BASE_URL}/quiz-attempts`;
 
 export const getQuestionsForPlay = async (quizId) => {
     try {

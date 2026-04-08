@@ -1,0 +1,57 @@
+.admin-log-container {
+    padding: 20px;
+}
+
+.tab-list {
+    display: flex;
+    border-bottom: 2px solid #dee2e6;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 0 10px;
+}
+
+.tab-item {
+    padding: 12px 24px;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    transition: all 0.3s ease;
+    outline: none;
+    margin-bottom: -2px;
+}
+
+.tab-item.active {
+    font-weight: 600;
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+}
+
+.tab-item.inactive {
+    font-weight: 400;
+    color: #6c757d;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-content {
+    padding: 10px;
+}
+
+.admin-log-container { padding: 20px; }
+.tab-list { display: flex; gap: 10px; margin-bottom: 20px; }
+.tab-item { padding: 8px 16px; border-radius: 4px; border: 1px solid #ddd; cursor: pointer; }
+.tab-item.active { background: #333; color: #fff; }
+
+.log-table { width: 100%; border-collapse: collapse; background: #fff; }
+.log-table th, .log-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+.log-table th { background: #f8f9fa; }
+
+.badge-log { padding: 4px 8px; border-radius: 4px; font-size: 12px; color: white; }
+.edit_question { background: #f39c12; }
+.delete_question { background: #e74c3c; }
+.create_exam { background: #27ae60; }
+.auth_login { background: #3498db; }
+
+.detail-cell { max-width: 300px; color: #555; font-style: italic; }
+.btn-delete-log { background: #ff4d4f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+.btn-delete-log:hover { background: #d9363e; }

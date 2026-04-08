@@ -1,16 +1,16 @@
-/* Lớp nền mờ bao phủ toàn màn hình */
+/* Lớp nền mờ */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Làm tối nền */
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    backdrop-filter: blur(2px); /* Hiệu ứng mờ nhẹ cho nền */
+    backdrop-filter: blur(2px);
 }
 
 /* Nội dung Modal chính */
@@ -20,30 +20,40 @@
     border-radius: 8px;
     width: 90%;
     max-width: 600px;
-    max-height: 80vh;
+    max-height: 85vh; /* Giới hạn chiều cao modal */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Sắp xếp các thành phần theo chiều dọc */
     animation: slideIn 0.3s ease-out;
 }
 
 .modal-content h3 {
-    margin-top: 0;
+    margin: 0 0 15px 0;
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
     color: #333;
 }
 
-/* Khu vực bảng danh sách */
+/* QUAN TRỌNG: Khu vực cuộn của bảng */
+.table-wrapper {
+    flex: 1; /* Tự động chiếm diện tích còn trống */
+    overflow-y: auto; /* Hiện thanh cuộn dọc */
+    margin-bottom: 15px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+}
+
 .modal-content table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
-    overflow-y: auto;
 }
 
 .modal-content tr {
     border-bottom: 1px solid #f5f5f5;
+}
+
+.modal-content tr:last-child {
+    border-bottom: none;
 }
 
 .modal-content tr:hover {
@@ -55,8 +65,8 @@
     color: #444;
 }
 
-/* Nút chọn trong bảng */
-.modal-content button {
+/* Nút chọn và nút đóng */
+.btn-select, .btn-close {
     padding: 6px 16px;
     cursor: pointer;
     border-radius: 4px;
@@ -65,33 +75,33 @@
     transition: all 0.2s;
 }
 
-.modal-content button:hover {
+.btn-select:hover {
     background-color: #007bff;
     color: white;
     border-color: #007bff;
 }
 
-/* Nút đóng Modal phía dưới */
-.modal-content > button:last-child {
-    align-self: flex-end;
+.btn-close {
+    align-self: flex-end; /* Đẩy nút đóng về bên phải */
     background-color: #6c757d;
     color: white;
     border: none;
-    margin-top: 10px;
 }
 
-.modal-content > button:last-child:hover {
+.btn-close:hover {
     background-color: #5a6268;
 }
 
-/* Hiệu ứng hiện ra mượt mà */
+/* Tùy chỉnh thanh cuộn cho gọn */
+.table-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 10px;
+}
+
 @keyframes slideIn {
-    from {
-        transform: translateY(-30px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }

@@ -35,12 +35,18 @@ import ChallengerPage from "./pages/ChallengerPage.jsx";
 import ChallengerWaiting from "./component/challenges/ChallengerWaiting.jsx";
 import AdminEditQuestion from "./component/admin/AdminEditQuestion.jsx";
 import ChallengerStart from "./component/challenges/ChallengerStart.jsx";
-import QuizJava from "./component/quiz/QuizJava.jsx";
 import QuizSelection from "./component/quiz/QuízeSelection.jsx";
 import ChallengerResult from "./component/challenges/ChallengerResult.jsx";
 import ProfileReview from "./component/home/profile/ProfileReview.jsx";
 import ChallengerReview from "./component/challenges/ChallengerReview.jsx";
 import ChallengerSnapshot from "./component/challenges/ChallengerSnapshot.jsx";
+import AdminReport from "./component/admin/AdminReport.jsx";
+import AdminLog from "./component/admin/AdminLog.jsx";
+import AboutUs from "./component/home/AboutUs.jsx";
+import TeacherExam from "./component/teacher/TeacherExam.jsx";
+import TeacherPage from "./pages/TeacherPage.jsx";
+import TeacherCheck from "./component/teacher/TeacherCheck.jsx";
+import TeacherResult from "./component/teacher/TeacherResult.jsx";
 
 
 function App() {
@@ -51,6 +57,7 @@ function App() {
             <Routes>
                 <Route path="/test" element={<TestUpload/>}/>
                 <Route path="/testEx" element={<TestExcel/>}/>
+                <Route path="/about" element={<AboutUs/>}/>
                 <Route element={<AdminPage/>}>
                     <Route path="/admin" element={<AdminDashboard/>}/>
                     <Route path="/admin/quiz" element={<AdminQuiz/>}/>
@@ -64,7 +71,9 @@ function App() {
                     <Route path="/admin/exams/edit/:quizId" element={<ManagerExam/>}/>
                     <Route path="/admin/exams/create/:type" element={<ExamEditor/>}/>
                     <Route path="/admin/exam/:examId" element={<ExamDetail/>}/>
+                    <Route path="/admin/report" element={<AdminReport/>}/>
                     <Route path="/admin/create-challenge" element={<ChallengerCreate/>}/>
+                    <Route path="/admin/log" element={<AdminLog/>} />
                     <Route path="/admin/questions/edit/:questionId/:examId" element={<AdminEditQuestion/>}/>
                 </Route>
                 <Route element={<ChallengerPage/>}>
@@ -74,10 +83,15 @@ function App() {
                     <Route path={"/challenger/result/:attemptId"} element={<ChallengerResult/>}/>
                     <Route path={"/challenger/review/:challengeId"} element={<ChallengerReview/>}/>
                 </Route>
+                <Route element={<TeacherPage/>}>
+                    <Route path={"/teacher/exam"} element={<TeacherExam/>} />
+                    <Route path={"/teacher/check"} element={<TeacherCheck/>}/>
+                    <Route path={"/teacher/exam-detail/:examId"} element={<TeacherResult/>} />
+                </Route>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/home/*" element={<HomePage/>}/>
-                <Route path="/quiz-js" element={<QuizJS/>}/>
-                <Route path="/quiz-java" element={<QuizJava/>}/>
+                {/*<Route path="/quiz-js" element={<QuizJS/>}/>*/}
+                {/*<Route path="/quiz-java" element={<QuizJava/>}/>*/}
                 <Route path="/quiz/:language" element={<QuizSelection />} />
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/oauth2/redirect" element={<OAuth2Redirect/>}/>

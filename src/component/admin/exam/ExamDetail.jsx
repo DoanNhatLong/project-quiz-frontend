@@ -4,6 +4,7 @@ import {getExam, getExamQuestions} from "../../../service/adminService.js";
 import MarkDownView from "../../../utils/MarkDownView.jsx";
 import "./css/ExamDetail.css";
 
+
 export default function ExamDetail() {
     const {examId} = useParams();
     const navigate = useNavigate();

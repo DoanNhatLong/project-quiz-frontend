@@ -1,93 +1,164 @@
+:root {
+    --nes-dark: #212529;
+    --nes-success: #92cc41;
+    --nes-error: #e76e55;
+    --nes-primary: #209cee;
+    --nes-warning: #f7d51d;
+}
+
 .history-container {
     padding: 20px;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    /* Giữ style NES container nếu bạn muốn đồng bộ */
+    border: 4px solid #000;
+    image-rendering: pixelated;
 }
 
 .history-title {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 20px;
+    font-family: 'Press Start 2P', cursive; /* Nếu bạn đã cài font này */
+    font-size: 1.5rem;
+    color: var(--nes-dark);
+    margin-bottom: 30px;
     text-align: center;
+    text-transform: uppercase;
 }
 
 .table-wrapper {
-    overflow-x: auto;
-    min-height: 450px; /* Giữ chiều cao ổn định khi chuyển trang */
+    width: 100%;
+    margin-bottom: 20px;
 }
 
+/* TABLE PC */
 .history-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 1.1rem;
-}
-
-.history-table th,
-.history-table td {
-    padding: 15px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
+    font-size: 1rem;
 }
 
 .history-table th {
     background-color: #f8f9fa;
-    color: #555;
+    border-bottom: 4px solid #000;
+    padding: 12px;
+    text-transform: uppercase;
+}
+
+.history-table td {
+    padding: 15px 10px;
+    border-bottom: 2px solid #eee;
+    vertical-align: middle;
+}
+
+.score-cell {
     font-weight: bold;
+    font-family: monospace;
 }
 
-.quiz-title {
-    text-align: left;
-    font-weight: 600;
-}
-
+/* BADGES */
 .status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    padding: 4px 8px;
+    border: 2px solid #000;
+    display: inline-block;
     font-weight: bold;
+    font-size: 0.75rem;
 }
 
-.status-badge.pass { background-color: #e6fffa; color: #38a169; }
-.status-badge.fail { background-color: #fff5f5; color: #e53e3e; }
+.status-badge.pass { background-color: var(--nes-success); color: #fff; }
+.status-badge.fail { background-color: var(--nes-error); color: #fff; }
 
+/* BUTTON REVIEW */
 .btn-review {
-    padding: 8px 16px;
-    background-color: #3498db;
+    padding: 6px 12px;
+    background-color: var(--nes-primary);
     color: white;
-    border: none;
-    border-radius: 4px;
+    border: 3px solid #000;
+    box-shadow: 3px 3px 0px #888;
     cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.8rem;
 }
 
-/* Pagination Styles */
+.btn-review:active {
+    box-shadow: 0px 0px 0px;
+    transform: translate(3px, 3px);
+}
+
+/* PAGINATION */
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
     margin-top: 20px;
-    gap: 15px;
 }
 
 .page-btn {
-    padding: 8px 16px;
-    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border: 3px solid #000;
     background-color: #fff;
     cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s;
+    font-weight: bold;
 }
 
 .page-btn:hover:not(:disabled) {
-    background-color: #f0f0f0;
+    background-color: var(--nes-warning);
 }
 
-.page-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+/* =========================================
+   RESPONSIVE LOGIC (Mobile < 768px)
+   ========================================= */
 
-.page-info {
-    font-size: 1rem;
-    color: #666;
+@media (max-width: 768px) {
+    .history-title {
+        font-size: 1rem;
+    }
+
+    /* Ẩn tiêu đề bảng */
+    .history-table thead {
+        display: none;
+    }
+
+    /* Biến mỗi dòng tr thành một Card */
+    .history-table tr {
+        display: block;
+        border: 3px solid #000;
+        margin-bottom: 15px;
+        padding: 10px;
+        background: #fafafa;
+        position: relative;
+    }
+
+    .history-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px dashed #ccc;
+        padding: 10px 5px;
+        text-align: right;
+    }
+
+    .history-table td:last-child {
+        border-bottom: none;
+        justify-content: center; /* Nút Review căn giữa */
+        padding-top: 15px;
+    }
+
+    /* Thêm nhãn giả trước mỗi thuộc tính */
+    .history-table td::before {
+        content: attr(data-label); /* Lấy từ thuộc tính data-label trong HTML */
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .quiz-title {
+        color: var(--nes-primary);
+        font-size: 1.1rem;
+    }
+
+    .pagination {
+        flex-direction: row;
+        font-size: 0.8rem;
+    }
 }

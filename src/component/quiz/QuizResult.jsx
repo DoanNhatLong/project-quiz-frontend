@@ -41,7 +41,7 @@ export default function QuizResult() {
                 )}
 
                 <button
-                    onClick={() => navigate("/quiz-js")}
+                    onClick={() => navigate("/home")}
                     style={{
                         padding: "10px 20px",
                         backgroundColor: "#007bff",

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
+import { Client } from '@stomp/stompjs';
 import "./css/ChallengerWaiting.css";
 import { useSelector } from "react-redux";
 import {createAttempt, getChallengerById} from "../../service/adminService.js";
@@ -35,72 +35,13 @@ export default function ChallengerWaiting() {
         }).catch(err => console.error("Lỗi lấy thông tin phòng:", err));
     }, [challengeId]);
 
-    useEffect(() => {
-        if (!user || (!isAdmin && !location.state?.isVerified)) return;
-
-        // Khởi tạo kết nối SockJS (khớp với registry.addEndpoint("/ws") ở BE)
-        const socket = new SockJS('http://localhost:8080/ws');
-        stompClient.current = Stomp.over(socket);
-
-        // Connect tới server
-        stompClient.current.connect({}, (frame) => {
-            console.log("✅ STOMP Connected:", frame);
-
-            stompClient.current.subscribe(`/topic/update_candidates/${challengeId}`, (message) => {
-                if (message.body) {
-                    const data = JSON.parse(message.body);
-                    setCandidates([...data]);
-                }
-            });
-
-            stompClient.current.subscribe(`/topic/kicked/${challengeId}/${user.id}`, (message) => {
-                if (message.body === "KICKED_BY_ADMIN") {
-                    Swal.fire({
-                        title: "Thông báo",
-                        text: "Bạn đã bị Admin mời ra khỏi phòng!",
-                        icon: "warning",
-                        confirmButtonText: "Đồng ý"
-                    }).then(() => {
-                        navigate('/challenger'); // Chuyển trang ngay lập tức
-                    });
-                }
-            });
-
-            // 2. Subscribe nhận tín hiệu bắt đầu thi (Nếu sau này BE có thêm logic này)
-            stompClient.current.subscribe(`/topic/start_exam/${challengeId}`, (message) => {
-                const config = JSON.parse(message.body);
-                // eslint-disable-next-line react-hooks/immutability
-                handleStartExam(config);
-            });
-
-            const joinPayload = {
-                challengeId: challengeId,
-                userId: user.id,
-                username: user.username,
-                email: user.email
-            };
-            stompClient.current.send("/app/join_exam_room", {}, JSON.stringify(joinPayload));
-
-        }, (error) => {
-            console.error("❌ STOMP ERROR:", error);
-        });
-
-        return () => {
-            if (stompClient.current && stompClient.current.connected) {
-                stompClient.current.disconnect();
-                console.log("❌ STOMP Disconnected");
-            }
-        };
-    }, [challengeId, user]);
-
-    const handleStartExam = async (config) => {
-        const payload = {
-            userId: user.id,
-            examId: challengeInfo.examId,
-        };
+    const handleStartExam = useCallback(async (config) => {
+        const userId = user.id;
+        const examId = challengeInfo.examId;
+        const challengeId = challengeInfo.id;
 
         try {
-            const res = await createAttempt(payload);
+            const res = await createAttempt(examId, userId, challengeId);
 
             const attemptId = res?.id;
 
@@ -113,7 +54,7 @@ export default function ChallengerWaiting() {
             });
 
             setTimeout(() => {
-                navigate(`/challenger/${challengeInfo.examId}/${attemptId}/start`, { state: { config } });
+                navigate(`/challenger/${examId}/${attemptId}/start`, { state: { config } });
             }, 2000);
 
         } catch (err) {
@@ -122,7 +63,80 @@ export default function ChallengerWaiting() {
             navigate('/home');
             return;
         }
-    };
+    });
+
+
+    useEffect(() => {
+        if (!user || (!isAdmin && !location.state?.isVerified)) return;
+
+        // Khởi tạo URL chuẩn từ biến môi trường
+        const socketUrl = `${import.meta.env.VITE_API_BASE_URL}/ws`;
+
+        const client = new Client({
+            webSocketFactory: () => new SockJS(socketUrl),
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+            onConnect: () => {
+                console.log("✅ STOMP Connected");
+
+                // 1. Subscribe cập nhật danh sách thí sinh
+                client.subscribe(`/topic/update_candidates/${challengeId}`, (message) => {
+                    if (message.body) {
+                        const data = JSON.parse(message.body);
+                        setCandidates([...data]);
+                    }
+                });
+
+                // 2. Subscribe xử lý bị kick
+                client.subscribe(`/topic/kicked/${challengeId}/${user.id}`, (message) => {
+                    if (message.body === "KICKED_BY_ADMIN") {
+                        Swal.fire({
+                            title: "Thông báo",
+                            text: "Bạn đã bị Admin mời ra khỏi phòng!",
+                            icon: "warning",
+                            confirmButtonText: "Đồng ý"
+                        }).then(() => {
+                            navigate('/challenger');
+                        });
+                    }
+                });
+
+                // 3. Subscribe nhận tín hiệu bắt đầu thi
+                client.subscribe(`/topic/start_exam/${challengeId}`, (message) => {
+                    const config = JSON.parse(message.body);
+                    handleStartExam(config);
+                });
+
+                // 4. Gửi tín hiệu Join phòng (Dùng publish thay cho send)
+                const joinPayload = {
+                    challengeId: challengeId,
+                    userId: user.id,
+                    username: user.username,
+                    email: user.email
+                };
+                client.publish({
+                    destination: "/app/join_exam_room",
+                    body: JSON.stringify(joinPayload)
+                });
+            },
+            onStompError: (frame) => {
+                console.error("❌ STOMP ERROR:", frame);
+            }
+        });
+
+        client.activate();
+        stompClient.current = client;
+
+        return () => {
+            if (stompClient.current) {
+                stompClient.current.deactivate();
+                console.log("❌ STOMP Deactivated");
+            }
+        };
+    }, [challengeId, user, isAdmin, location.state, navigate, handleStartExam]);
+
+   
 
     useEffect(() => {
         if (!challengeInfo?.startTime) return;
@@ -136,6 +150,9 @@ export default function ChallengerWaiting() {
             if (distance <= 0) {
                 setTimeLeft("Đang bắt đầu...");
                 clearInterval(timer);
+                if (!isAdmin) {
+                    handleStartExam({ autoStart: true });
+                }
             } else {
                 const hours = Math.floor(distance / (1000 * 60 * 60));
                 const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -147,7 +164,7 @@ export default function ChallengerWaiting() {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [challengeInfo]);
+    }, [challengeInfo, isAdmin]);
 
     const handleKick = (targetUserId, targetUsername) => {
         Swal.fire({
@@ -160,10 +177,14 @@ export default function ChallengerWaiting() {
             cancelButtonText: 'Hủy'
         }).then((result) => {
             if (result.isConfirmed && stompClient.current) {
-                stompClient.current.send("/app/kick_candidate", {}, JSON.stringify({
-                    challengeId: challengeId,
-                    userId: targetUserId
-                }));
+                // Thay .send bằng .publish
+                stompClient.current.publish({
+                    destination: "/app/kick_candidate",
+                    body: JSON.stringify({
+                        challengeId: challengeId,
+                        userId: targetUserId
+                    })
+                });
             }
         });
     };
@@ -176,23 +197,11 @@ export default function ChallengerWaiting() {
                 <div className="countdown-box">
                     <p>Thời gian bắt đầu: <strong>{new Date(challengeInfo?.startTime).toLocaleString()}</strong></p>
                     <h2 className="timer-text">Bắt đầu sau: {timeLeft}</h2>
-                    <button
-                        onClick={() => handleStartExam({ testMode: true, manualStart: true })}
-                        style={{
-                            marginTop: '20px',
-                            padding: '12px 24px',
-                            backgroundColor: '#ff4757',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '16px',
-                            fontWeight: 'bold',
-                            boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                        }}
-                    >
-                        ⚡ VÀO THI NGAY (TEST)
-                    </button>
+                    {/*<button*/}
+                    {/*    onClick={() => handleStartExam({ testMode: true, manualStart: true })}*/}
+                    {/*>*/}
+                    {/*    VÀO THI NGAY (TEST)*/}
+                    {/*</button>*/}
                 </div>
             </div>
 
@@ -220,7 +229,7 @@ export default function ChallengerWaiting() {
             <div className="rules-note">
                 <p>⚠️ <strong>Lưu ý quan trọng:</strong></p>
                 <ul>
-                    <li>Phòng thi này <strong>không cho phép</strong> kết nối lại nếu thoát ra.</li>
+                    <li>Đảm bảo <strong>không có ai</strong> vào tài khoản của bạn khi đang thi</li>
                     <li>Đảm bảo đường truyền internet ổn định trước khi bắt đầu.</li>
                 </ul>
             </div>

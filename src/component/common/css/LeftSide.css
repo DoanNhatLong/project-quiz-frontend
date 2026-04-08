@@ -30,3 +30,23 @@
 .nes-progress {
     height: 15px
 }
+
+/* Thêm vào file LeftSide.css của bạn */
+
+.nes-container.is-rounded {
+    border-radius: 15px !important;
+}
+
+/* Bo tròn các thanh tiến trình (progress bar) */
+.nes-progress {
+    height: 15px !important;
+    border-radius: 8px !important;
+}
+
+/* Nếu bạn muốn thanh bên trong cũng bo theo */
+.nes-progress::-webkit-progress-value {
+    border-radius: 8px !important;
+}
+.nes-progress::-moz-progress-bar {
+    border-radius: 8px !important;
+}

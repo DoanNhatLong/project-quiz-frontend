@@ -51,7 +51,7 @@ export default function ProfileHistory() {
                     <thead>
                     <tr>
                         <th>Tên Quiz</th>
-                        <th>Thời gian bắt đầu</th>
+                        <th>Thời gian</th>
                         <th>Điểm số</th>
                         <th>Trạng thái</th>
                         <th>Hành động</th>
@@ -61,22 +61,20 @@ export default function ProfileHistory() {
                     {currentItems.length > 0 ? (
                         currentItems.map((item) => (
                             <tr key={item.id}>
-                                <td className="quiz-title">{item.quiz.title}</td>
-                                <td>{formatDate(item.startedTime)}</td>
-                                <td className="score-cell">
+                                <td data-label="Quiz" className="quiz-title">{item.quiz.title}</td>
+                                <td data-label="Thời gian">{formatDate(item.startedTime)}</td>
+                                <td data-label="Điểm số" className="score-cell">
                                     {(item.score * 100).toFixed(0)}%
                                 </td>
-                                <td>
-                                        <span className={`status-badge ${item.passed ? 'pass' : 'fail'}`}>
-                                            {item.passed ? 'ĐẠT' : 'CHƯA ĐẠT'}
-                                        </span>
+                                <td data-label="Trạng thái">
+                                <span className={`status-badge ${item.passed ? 'pass' : 'fail'}`}>
+                                    {item.passed ? 'ĐẠT' : 'CHƯA ĐẠT'}
+                                </span>
                                 </td>
                                 <td>
-                                    <button
-                                        onClick={() => navigate(`/quiz-review/${item.id}`)}
-                                        className="btn-review"
-                                    >
-                                        Review
+                                    <button onClick={() => navigate(`/quiz-review/${item.id}`)}
+                                            className="nes-btn is-primary">
+                                        CHI TIẾT
                                     </button>
                                 </td>
                             </tr>

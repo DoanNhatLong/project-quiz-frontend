@@ -49,7 +49,7 @@ export default function AdminCheckQuestion() {
                         Quay lại
                     </button>
                     <h2 style={{ margin: 0 }}>
-                        Chi tiết câu hỏi: <span style={{ color: '#3498db' }}>{questions[0]?.quiz?.title}</span>
+                        Bộ quiz: <span style={{ color: 'red', fontSize : "16px" }}>{questions[0]?.quiz?.title}</span>
                     </h2>
                 </div>
                 <span className="badge-category">Tổng số: {questions.length} câu</span>
@@ -96,10 +96,20 @@ export default function AdminCheckQuestion() {
                             </ul>
                         </td>
                         <td style={{ textAlign: 'center' }}>
-                            <ConfirmModal
-                                message={`Bạn có chắc chắn muốn xóa câu hỏi số ${q.orderIndex || index + 1}?`}
-                                onConfirm={() => handleDelete(q.id)}
-                            />
+                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                                <button
+                                    className="btn-admin"
+                                    style={{ backgroundColor: '#f1c40f', color: '#000' }}
+                                    onClick={() => navigate(`/admin/questions/edit/${q.id}/6`)}
+                                >
+                                    Edit
+                                </button>
+
+                                <ConfirmModal
+                                    message={`Bạn có chắc chắn muốn xóa câu hỏi số ${q.orderIndex || index + 1}?`}
+                                    onConfirm={() => handleDelete(q.id)}
+                                />
+                            </div>
                         </td>
                     </tr>
                 ))}

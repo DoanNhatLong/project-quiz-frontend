@@ -18,18 +18,20 @@ export default function ExamModal({ isOpen, onClose, onSelect }) {
                 {error && <p style={{ color: 'red' }}>Lỗi: {error.message}</p>}
 
                 {!loading && exams && (
-                    <table>
-                        <tbody>
-                        {exams.map(exam => (
-                            <tr key={exam.id}>
-                                <td>{exam.title}</td>
-                                <td>
-                                    <button onClick={() => onSelect(exam)}>Chọn</button>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <div className="table-wrapper">
+                        <table>
+                            <tbody>
+                            {exams.map(exam => (
+                                <tr key={exam.id}>
+                                    <td>{exam.title}</td>
+                                    <td>
+                                        <button onClick={() => onSelect(exam)}>Chọn</button>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
 
                 <button onClick={onClose}>Đóng</button>

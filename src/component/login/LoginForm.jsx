@@ -12,7 +12,6 @@ export default function LoginForm() {
     const dispatch = useDispatch()
 
     const handleSubmit = () => {
-        // Kiểm tra dữ liệu đầu vào cơ bản
         if (!username || !password) {
             toast.warn("Vui lòng nhập đầy đủ thông tin!");
             return;
@@ -20,17 +19,12 @@ export default function LoginForm() {
 
         userService.loginUser({ username, password })
             .then(res => {
-                const data = res.data; // Đây là Object Map.of từ Java bạn viết lúc nãy
-
-                // --- BƯỚC QUAN TRỌNG: LƯU TOKEN VÀO LOCALSTORAGE ---
+                const data = res.data;
                 localStorage.setItem('token', data.token);
-                // Lưu thêm info user dạng chuỗi để dùng khi F5 trang
                 localStorage.setItem('user', JSON.stringify(data));
-
-                // Lưu vào Redux để các component khác (RightSide, Header) cập nhật ngay lập tức
                 dispatch(setUser(data));
 
-                toast.success("Chào mừng Adventurer trở lại!");
+                toast.success("Chào mừng bạn trở lại!");
                 navigate('/home');
             })
             .catch(err => {

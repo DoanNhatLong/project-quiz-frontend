@@ -1,21 +1,49 @@
+import { Client } from '@stomp/stompjs';
 import SockJS from "sockjs-client";
-import Stomp from "stompjs";
 
 let stompClient = null;
 
+const socketUrl = `${import.meta.env.VITE_API_BASE_URL}/ws`;
+
 export const connectSocket = (onMessage) => {
-    const socket = new SockJS("http://localhost:8080/ws");
-    stompClient = Stomp.over(socket);
+    stompClient = new Client({
+        // Nếu dùng SockJS, bạn cần bọc nó trong một function webSocketFactory
+        webSocketFactory: () => new SockJS(`${socketUrl}`),
 
-    stompClient.connect({}, () => {
-        console.log("✅ Connected WebSocket");
+        // Debug log (có thể xóa khi chạy production)
+        debug: (str) => console.log(str),
 
-        stompClient.subscribe("/topic/test", (msg) => {
-            onMessage(JSON.parse(msg.body));
-        });
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
     });
+
+    stompClient.onConnect = (frame) => {
+        console.log("✅ Connected WebSocket: " + frame);
+
+        // Subscribe vào topic
+        stompClient.subscribe("/topic/test", (msg) => {
+            if (msg.body) {
+                onMessage(JSON.parse(msg.body));
+            }
+        });
+    };
+
+    stompClient.onStompError = (frame) => {
+        console.error('Broker reported error: ' + frame.headers['message']);
+        console.error('Additional details: ' + frame.body);
+    };
+
+    stompClient.activate(); // Kích hoạt kết nối
 };
 
 export const sendMessage = (msg) => {
-    stompClient.send("/app/hello", {}, JSON.stringify(msg));
+    if (stompClient && stompClient.connected) {
+        stompClient.publish({
+            destination: "/app/hello",
+            body: JSON.stringify(msg)
+        });
+    } else {
+        console.error("❌ STOMP client is not connected.");
+    }
 };

@@ -43,9 +43,15 @@ export default function AdminEditQuestion() {
     const handleSubmit = (e) => {
         e.preventDefault();
         updateQuestion(questionId, question)
-            .then(() => toast.success("Cập nhật thành công!"))
-            .catch(() => toast.error("Lỗi khi cập nhật"));
-        navigate(`/admin/exam/${examId}`);
+            .then(() => {
+                toast.success("Cập nhật thành công!");
+                navigate(-1);
+            })
+            .catch((err) => {
+                console.error(err);
+                toast.error("Lỗi khi cập nhật");
+            });
+
     };
 
     if (loading) return <p>Đang tải dữ liệu...</p>;

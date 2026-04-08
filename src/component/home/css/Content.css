@@ -37,19 +37,29 @@
 .card-info {
     padding: 20px;
     text-align: center;
+    /* --- THÊM CÁC DÒNG NÀY --- */
+    display: flex;
+    flex-direction: column; /* Ép các phần tử con xếp chồng theo chiều dọc */
+    align-items: center;    /* Căn giữa các phần tử theo chiều ngang */
+    gap: 8px;              /* Tạo khoảng cách giữa title và desc (thay cho thẻ <br/>) */
 }
 
 .card-info h3 {
-    margin: 0 0 10px 0;
+    margin: 0;             /* Bỏ margin mặc định để dễ kiểm soát bằng gap */
     font-size: 1.2rem;
     color: #2d3436;
     font-weight: 700;
+    display: block;        /* Đảm bảo nó chiếm hết chiều ngang */
+    width: 100%;
 }
 
 .card-info p {
     margin: 0;
     font-size: 0.9rem;
     color: #636e72;
+    display: block;        /* Đảm bảo nó chiếm hết chiều ngang */
+    width: 100%;
+    white-space: normal;   /* Cho phép xuống dòng nếu chữ quá dài */
 }
 
 /* Responsive cho màn hình nhỏ (nếu cần) */

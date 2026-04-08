@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useParams, useNavigate, useLocation} from 'react-router-dom';
 import {getQuestionsForPlay, submitQuizResult} from '../../service/quizService';
 import { toast } from 'react-toastify';
 import Navbar from "../common/Navbar.jsx";
@@ -9,6 +9,8 @@ import MarkDownView from "../../utils/MarkDownView.jsx";
 export default function QuizPlay() {
     const { quizId, attemptId } = useParams();
     const navigate = useNavigate();
+    const { state } = useLocation();
+    const language = state?.language || "JS";
 
 
     const [questions, setQuestions] = useState([]);
@@ -44,7 +46,8 @@ export default function QuizPlay() {
                 state: {
                     correct: correctCount,
                     total: questions.length,
-                    isGuest: true
+                    isGuest: true,
+                    language: language
                 }
             });
             return;
@@ -67,7 +70,10 @@ export default function QuizPlay() {
                 toast.success("Nộp bài thành công!");
             }
             navigate(`/quiz-finished/${attemptId}`, {
-                state: { resultData: response }
+                state: {
+                    resultData: response,
+                    language: language
+                }
             });
 
         } catch (error) {
@@ -231,9 +237,13 @@ export default function QuizPlay() {
                     </button>
 
                     {currentStep === questions.length - 1 ? (
-                        <button className="btn-submit" onClick={() => handleSubmit()}>Nộp bài</button>
+                        <button className="btn-submit" onClick={() => handleSubmit()}>
+                            Nộp bài
+                        </button>
                     ) : (
-                        <button className="btn-next" onClick={() => setCurrentStep(prev => prev + 1)}>Tiếp theo</button>
+                        <button className="btn-next" onClick={() => setCurrentStep(prev => prev + 1)}>
+                            Tiếp theo
+                        </button>
                     )}
                 </div>
             </div>

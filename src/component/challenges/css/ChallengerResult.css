@@ -1,0 +1,66 @@
+.result-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.result-card {
+    background: #fff;
+    padding: 40px 60px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-box {
+    font-size: 70px;
+    margin-bottom: 20px;
+}
+
+.status-text {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.score-text {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.score-number {
+    font-size: 48px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Style cho trạng thái ĐẬU (Passed) */
+.result-card.passed {
+    border-top: 8px solid #28a745;
+}
+
+.result-card.passed .icon-box,
+.result-card.passed .status-text {
+    color: #28a745;
+}
+
+/* Style cho trạng thái RỚT (Failed) */
+.result-card.failed {
+    border-top: 8px solid #dc3545;
+}
+
+.result-card.failed .icon-box,
+.result-card.failed .status-text {
+    color: #dc3545;
+}
+

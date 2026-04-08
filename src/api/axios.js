@@ -1,9 +1,8 @@
 import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+import {toast} from "react-toastify";
 
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 api.interceptors.request.use(
@@ -23,12 +22,23 @@ api.interceptors.response.use(
         const isLoginApi = error.config.url.includes('/auth/login');
 
         if (error.response && error.response.status === 401 && !isLoginApi) {
+
+            const serverMessage = error.response.data?.message || error.response.data;
+
+            if (serverMessage === "Tài khoản đã đăng nhập ở thiết bị khác!") {
+                toast.error("⚠️ " + serverMessage);
+            } else {
+                toast.warn("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại.");
+            }
+
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/login';
+
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2500);
         }
         return Promise.reject(error);
     }
 );
-
 export default api;

@@ -1,0 +1,46 @@
+.result-container {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.result-table th,
+.result-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.result-table th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.result-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.status-passed {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.status-failed {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.score-cell {
+    font-family: monospace;
+    font-size: 1.1em;
+}

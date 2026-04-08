@@ -283,18 +283,33 @@ export default function AdminAddQuestion() {
                     </div>
 
                     <div className="admin-card" style={{
-                        padding: '10px',
+                        padding: '20px', // Tăng padding cho thoáng
                         border: '1px solid #ddd',
                         borderRadius: '12px',
                         background: '#fcfcfc'
                     }}>
-                        <h4 style={{marginBottom: '10px'}}>Hướng dẫn</h4>
-                        <ul style={{fontSize: '0.85rem', paddingLeft: '15px', color: '#555', lineHeight: '1.6'}}>
-                            <li><b>Đáp án:</b> Tích chọn 1 hoặc nhiều ô vuông để xác định đáp án đúng.</li>
-                            <li><b>Hình ảnh:</b> Tải ảnh trực tiếp từ máy tính để minh họa cho câu hỏi.</li>
-                            <li><b>Bộ câu hỏi:</b> Tải bộ câu hỏi từ file .csv hoặc .xlsx.</li>
-                            <li><b>Sử dụng AI:</b> Sử dụng AI để tự động tạo câu hỏi.</li>
+                        <h4 style={{ marginBottom: '10px' }}>📝 Hướng dẫn tải lên bộ câu hỏi</h4>
+                        <ul style={{ fontSize: "0.85rem", paddingLeft: "15px", color: "#555", lineHeight: "1.6", marginBottom: '15px' }}>
+                            <li>Tải về file Excel mẫu dưới đây.</li>
+                            <li>Điền nội dung câu hỏi và các đáp án theo đúng định dạng.</li>
+                            <li>Sau khi hoàn tất, bấm <b>"Tải lên bộ câu hỏi"</b> để kiểm tra.</li>
                         </ul>
+                        <a
+                            href="/templates/template_quiz.xlsx"
+                            download="Mau_Cau_Hoi_Quiz.xlsx"
+                            className="btn-admin"
+                            style={{
+                                display: 'block',
+                                textAlign: 'center',
+                                backgroundColor: '#34495e',
+                                color: 'white',
+                                textDecoration: 'none',
+                                fontSize: '0.85rem',
+                                padding: '10px'
+                            }}
+                        >
+                            📥 TẢI FILE EXCEL MẪU
+                        </a>
                     </div>
                     <div className="admin-card" style={{marginTop: '10px'}}>
                         <button

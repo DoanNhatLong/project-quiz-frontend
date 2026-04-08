@@ -51,15 +51,14 @@ export default function ChallengerCreate() {
             userId: userId
         };
 
-        console.log("Payload gửi đi:", payload);
         createChallenger(payload)
             .then(() => {
                 toast.success("Tạo thử thách mới thành công!");
                 navigate("/admin");
             })
             .catch(error => {
-                toast.error("Lỗi khi tạo thử thách!");
-                console.log(error);
+                const errorMessage = error.response?.data?.message
+                toast.error(errorMessage);
             });
     };
 

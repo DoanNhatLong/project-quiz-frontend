@@ -1,8 +1,9 @@
 import axios from 'axios';
 import api from "../api/axios.js";
 
-const AUTH_URL = 'http://localhost:8080/auth';
-const USER_URL = 'http://localhost:8080/users';
+const AUTH_URL = `${import.meta.env.VITE_API_BASE_URL}/auth`;
+const USER_URL = `${import.meta.env.VITE_API_BASE_URL}/users`;
+
 
 export const userService = {
     getAllUsers: () => {
@@ -12,8 +13,8 @@ export const userService = {
     },
 
     registerUser: (userData) => {
-        const { username, email, password } = userData;
-        return axios.post(`${AUTH_URL}/register`, { username, email, password });
+        const {username, email, password} = userData;
+        return axios.post(`${AUTH_URL}/register`, {username, email, password});
     },
 
     checkDuplicate: (field, value, users) => {
@@ -24,7 +25,7 @@ export const userService = {
     loginUser: async (credentials) => {
         return await axios.post(`${AUTH_URL}/login`, credentials);
     },
-    addXp: (payload) =>{
+    addXp: (payload) => {
         return api.post("/users/add-xp", payload)
             .then(response => response.data)
     },
@@ -34,19 +35,41 @@ export const userService = {
             .then(response => response.data)
     }
 };
-export const getReview = (attemptId) =>{
+export const getReview = (attemptId) => {
     return api.get(`/api/challenges/review/${attemptId}`)
         .then(response => response.data)
         .catch(error => {
-            console.error("Lỗi khi lấy thông tin review:", error);})
+            console.error("Lỗi khi lấy thông tin review:", error);
+        })
 }
 
-export const getSelectAnswer = (attemptId)=>{
+export const getSelectAnswer = (attemptId) => {
     return api.get(`/api/challenges/${attemptId}/answers`)
         .then(response => response.data)
 }
 
-export const getSnapshot = (attemptId) =>{
+export const getSnapshot = (attemptId) => {
     return api.get(`/users/snapshot/${attemptId}`)
         .then(response => response.data)
 }
+
+export const getAttempt = (attemptId) => {
+    return api.get(`/users/attempt/${attemptId}`)
+        .then(res => res.data)
+}
+
+export const sendReport = (payload) => {
+    return api.post(`/report`, payload)
+        .then(res => res.data)
+}
+
+export const getReport = (attemptId) => {
+    return api.get(`/report/${attemptId}`)
+        .then(res => res.data)
+}
+
+export const handleReport = (status) => {
+    return api.get(`/report/get/${status}`)
+        .then(res => res.data)
+}
+

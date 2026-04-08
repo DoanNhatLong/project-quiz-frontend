@@ -33,15 +33,15 @@ export default function ProfileReview() {
                             className="challenge-card"
                             onClick={() => handleCardClick(item.id)}
                         >
-                            <h4 className="challenge-title">{item.exams?.title}</h4>
+                            <h4 className="challenge-title">{item.title}</h4>
 
-                            <p className="challenge-desc">
-                                {item.exams?.description || "Không có mô tả cho thử thách này."}
+                            <p className="challenge-date">
+                                📅 Ngày thi: {item.startTime ? new Date(item.startTime).toLocaleDateString('vi-VN') : 'N/A'}
                             </p>
 
                             <div className="challenge-footer">
-                                <span className="duration-tag">
-                                    {item.exams?.durationMinutes} phút
+                                <span className="challenge-time">
+                                    ⏰ Giờ thi: {item.startTime ? new Date(item.startTime).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
                                 </span>
                                 <button className="btn-start">Xem lại bài thi</button>
                             </div>
