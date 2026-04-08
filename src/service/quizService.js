@@ -1,12 +1,8 @@
 import api from "../api/axios.js";
 
-
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/quizzes`;
-const API_ATTEMPTS_URL = `${import.meta.env.VITE_API_BASE_URL}/quiz-attempts`;
-
 export const getQuestionsForPlay = async (quizId) => {
     try {
-        const response = await api.get(`${API_BASE_URL}/${quizId}/play`);
+        const response = await api.get(`quizzes/${quizId}/play`);
         return response.data;
     } catch (error) {
         console.error("Lỗi khi gọi API lấy câu hỏi bài thi:", error);
@@ -18,7 +14,7 @@ export const getQuestionsForPlay = async (quizId) => {
 export const submitQuizResult = async (submission) => {
     try {
         const response = await api.post(
-            `${API_ATTEMPTS_URL}/submit`,
+            `quiz-attempts/submit`,
             submission
         );
         return response.data;
@@ -30,7 +26,7 @@ export const submitQuizResult = async (submission) => {
 
 export const getUserQuizAttempts = async (userId) => {
     try {
-        const response = await api.get(`${API_ATTEMPTS_URL}/user/${userId}`);
+        const response = await api.get(`quiz-attempts/user/${userId}`);
         return response.data;
     } catch (error) {
         console.error("Lỗi khi lấy lịch sử bài thi:", error);
@@ -40,7 +36,7 @@ export const getUserQuizAttempts = async (userId) => {
 
 export const getQuizAttemptDetails = async (attemptId) => {
     try {
-        const response = await api.get(`${API_ATTEMPTS_URL}/${attemptId}/answers`);
+        const response = await api.get(`quiz-attempts/${attemptId}/answers`);
         return response.data;
     } catch (error) {
         console.error("Lỗi khi lấy chi tiết bài thi:", error);
