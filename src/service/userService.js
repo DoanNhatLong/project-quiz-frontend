@@ -1,7 +1,7 @@
 import axios from 'axios';
 import api from "../api/axios.js";
 
-const AUTH_URL = `${import.meta.env.VITE_API_BASE_URL}/auth`;
+// const AUTH_URL = `${import.meta.env.VITE_API_BASE_URL}/auth`;
 const USER_URL = `${import.meta.env.VITE_API_BASE_URL}/users`;
 
 
@@ -14,7 +14,7 @@ export const userService = {
 
     registerUser: (userData) => {
         const {username, email, password} = userData;
-        return axios.post(`${AUTH_URL}/register`, {username, email, password});
+        return api.post(`${USER_URL}/register`, {username, email, password});
     },
 
     checkDuplicate: (field, value, users) => {
@@ -23,7 +23,7 @@ export const userService = {
     },
 
     loginUser: async (credentials) => {
-        return await axios.post(`${AUTH_URL}/login`, credentials);
+        return await api.post(`${USER_URL}/login`, credentials);
     },
     addXp: (payload) => {
         return api.post("/users/add-xp", payload)
