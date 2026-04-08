@@ -3,9 +3,17 @@ import SockJS from "sockjs-client";
 
 let stompClient = null;
 
-const socketUrl = `${import.meta.env.VITE_API_BASE_URL}/ws`;
 
 export const connectSocket = (onMessage) => {
+    const baseURL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL;
+
+    if (!baseURL) {
+        console.error("❌ Không tìm thấy API URL trong biến môi trường!");
+        return;
+    }
+
+    const socketUrl = `${baseURL}/ws`;
+    console.log("🔗 Kết nối Socket tới:", socketUrl);
     stompClient = new Client({
         // Nếu dùng SockJS, bạn cần bọc nó trong một function webSocketFactory
         webSocketFactory: () => new SockJS(`${socketUrl}`),
