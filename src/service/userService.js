@@ -6,15 +6,17 @@ const USER_URL = `${import.meta.env.VITE_API_BASE_URL}/users`;
 
 
 export const userService = {
-    getAllUsers: () => {
-        return api.get(USER_URL)
+    getAllUsers: (page = 0, size = 5) => {
+        return api.get(`/users/admin`, {
+            params: { page, size }
+        })
             .then(response => response.data)
             .catch(() => []);
     },
 
     registerUser: (userData) => {
         const {username, email, password} = userData;
-        return api.post(`${USER_URL}/register`, {username, email, password});
+        return api.post(`/register`, {username, email, password});
     },
 
     checkDuplicate: (field, value, users) => {
@@ -23,7 +25,7 @@ export const userService = {
     },
 
     loginUser: async (credentials) => {
-        return await api.post(`${USER_URL}/login`, credentials);
+        return await api.post(`/login`, credentials);
     },
     addXp: (payload) => {
         return api.post("/users/add-xp", payload)
