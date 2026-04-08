@@ -1,9 +1,5 @@
-import axios from 'axios';
+
 import api from "../api/axios.js";
-
-// const AUTH_URL = `${import.meta.env.VITE_API_BASE_URL}/auth`;
-const USER_URL = `${import.meta.env.VITE_API_BASE_URL}/users`;
-
 
 export const userService = {
     getAllUsers: (page = 0, size = 5) => {
