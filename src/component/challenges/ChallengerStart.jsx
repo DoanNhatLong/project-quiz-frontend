@@ -1,5 +1,4 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {Client} from '@stomp/stompjs';
 import {
     calculateScore,
     createSnapshot,
@@ -15,7 +14,6 @@ import {useProgressSaver} from "../../hooks/useProgressSaver.jsx";
 import {toast} from "react-toastify";
 import MarkDownView from "../../utils/MarkDownView.jsx";
 import Swal from "sweetalert2";
-import SockJS from "sockjs-client";
 
 export default function ChallengerStart() {
     const params = useParams();
@@ -29,10 +27,7 @@ export default function ChallengerStart() {
     const {trackProgress} = useProgressSaver(params.attemptId);
     const navigate = useNavigate();
     const isRestored = useRef(false);
-
-
-    const [secondsLeft, setSecondsLeft] = useState(null);
-    const stompClient = useRef(null);
+    const [secondsLeft, setSecondsLeft] = useState(300);
 
     const handleForceSubmit = useCallback(async () => {
         let data = [];
@@ -60,41 +55,22 @@ export default function ChallengerStart() {
 
 // 2. Cập nhật useEffect cho Socket
     useEffect(() => {
-        const socketUrl = `${import.meta.env.VITE_API_BASE_URL}/ws`;
+        if (secondsLeft === null) return;
 
-        const client = new Client({
-            webSocketFactory: () => new SockJS(socketUrl),
-            reconnectDelay: 5000,
-            heartbeatIncoming: 4000,
-            heartbeatOutgoing: 4000,
-            onConnect: () => {
-                console.log("✅ Connected WebSocket");
-                client.subscribe(`/topic/exam_timer/${params.attemptId}`, (msg) => {
-                    const remaining = parseInt(msg.body);
-                    setSecondsLeft(remaining);
-                    if (remaining <= 0) {
-                        handleForceSubmit(); // Bây giờ hàm này đã an toàn để gọi
-                    }
-                });
-            },
-            onStompError: (frame) => {
-                console.error('Broker reported error: ' + frame.headers['message']);
-            },
-        });
+        if (secondsLeft <= 0) {
+            handleForceSubmit();
+            return;
+        }
 
-        client.activate();
-        stompClient.current = client;
+        const timer = setInterval(() => {
+            setSecondsLeft(prev => prev - 1);
+        }, 1000);
 
-        return () => {
-            if (stompClient.current) {
-                stompClient.current.deactivate();
-            }
-        };
-    }, [params.attemptId, handleForceSubmit])
-
+        return () => clearInterval(timer); // Cleanup khi unmount
+    }, [secondsLeft, handleForceSubmit]);
 
     const formatTime = (s) => {
-        if (s === null) return "Đang kết nối...";
+        if (s === null) return "Đang khởi tạo...";
         if (s <= 0) return "00:00";
         const mins = Math.floor(s / 60);
         const secs = s % 60;
