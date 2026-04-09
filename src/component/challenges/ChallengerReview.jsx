@@ -56,10 +56,12 @@ export default function ChallengerReview() {
             return;
         }
 
+        const cleanStartTime = attempt?.startedAt ? attempt.startedAt.split('.')[0] : null;
+
         const reportPayload = {
             attemptId: attempt.id,
             examId: attempt.examId,
-            startTime: attempt?.startedAt,
+            startTime: cleanStartTime,
             message: content,
             status: "PENDING"
         };
