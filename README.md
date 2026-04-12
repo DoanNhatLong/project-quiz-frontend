@@ -1,10 +1,12 @@
 # Project Overview
 
-This project is a comprehensive Quiz Management System designed to facilitate both student practice and real-time examination environments.
-For Students: The platform provides a space to practice and engage in real-time exams, allowing for synchronized participation and competitive learning.
-For Instructors: It offers powerful administrative tools to curate exams from multiple question banks and provides the functionality to manage and monitor live exam rooms effectively.
-Git Backend Repository: ([https://github.com/longnhat1357/Project_Quiz_Spring](https://github.com/DoanNhatLong/project_quiz_backend))
-Restful API: [(https://quiz-backend-v1.onrender.com)](https://quiz-backend-v1.onrender.com)
+This project is a comprehensive **Quiz Management System** designed to facilitate both student practice and real-time examination environments.
+
+* **For Students:** The platform provides a space to practice and engage in **real-time exams**, allowing for synchronized participation and competitive learning.
+* **For Instructors:** It offers powerful administrative tools to curate exams from **multiple question banks** and provides the functionality to manage and monitor **live exam rooms** effectively.
+
+**Backend Source Code:** [Project_Quiz_Spring](https://github.com/longnhat1357/Project_Quiz_Spring)
+**Restful API :** [(https://quiz-backend-v1.onrender.com)](https://quiz-backend-v1.onrender.com)
 
 ## React Compiler
 
