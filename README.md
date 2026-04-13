@@ -16,5 +16,7 @@ This project is a comprehensive **Quiz Management System** designed to facilitat
 | :--- | :--- | :--- |
 | **admin** | `admin` | `123` |
 | **user** | `long1`  | `123` |
+| **user** | `ha1`  | `123` |
+| **user** | `ha2`  | `123` |
 
-> **Lưu ý:** Đối với các phòng thi, phòng : `Kiểm tra kiến thức` , sử dụng mã phòng: `222`
+> **Lưu ý:** Đối với các phòng thi, phòng : `Kiểm tra kiến thức` , sử dụng mã phòng: `222`. Phòng thi có chức năng chống gian lận nên nếu acc bị đuổi ra có thể dùng acc khác để trải nghiệm
