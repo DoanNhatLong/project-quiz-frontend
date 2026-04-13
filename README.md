@@ -10,10 +10,11 @@ This project is a comprehensive **Quiz Management System** designed to facilitat
 **Backend Source Code:** [Project_Quiz_BE](https://github.com/DoanNhatLong/project_quiz_backend) <br>
 **Restful API:** [https://quiz-backend-v1.onrender.com](https://quiz-backend-v1.onrender.com)
 
-## React Compiler
+### 🔑 Trải nghiệm hệ thống (Demo Credentials)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Role | Tài khoản | Mật khẩu |
+| :--- | :--- | :--- |
+| **admin** | `admin` | `123` |
+| **user** | `long1`  | `123` |
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+> **Lưu ý:** Đối với các phòng thi, phòng : `Kiểm tra kiến thức` , sử dụng mã phòng: `222`
